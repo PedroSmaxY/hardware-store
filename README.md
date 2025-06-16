@@ -159,5 +159,5 @@ Este projeto foi desenvolvido para a disciplina de **Laboratório de Desenvolvim
 
 ---
 
-  **Tecnologias Utilizadas**: Python • PyQt6 • SQLAlchemy • SQLite/MySQL  
-   **Padrões**: Repository Pattern • Service Layer
+**Tecnologias Utilizadas**: Python • PyQt6 • SQLAlchemy • SQLite/MySQL  
+**Padrões**: Repository Pattern • Service Layer
