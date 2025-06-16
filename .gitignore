@@ -15,6 +15,9 @@ wheels/
 # Virtual environments
 .venv
 
+# VSCode
+.vscode/
+
 # Databases
 *.db
 *.sqlite
