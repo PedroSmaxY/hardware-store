@@ -13,6 +13,11 @@ criação automática das tabelas através da classe Base declarativa.
 
 Base = declarative_base()
 
+if URL_BANCO_DE_DADOS:
+    print(f"Conectando ao banco de dados: {URL_BANCO_DE_DADOS}")
+else:
+    print("Nenhuma URL de banco de dados fornecida, usando SQLite local.")
+
 engine = create_engine(
     URL_BANCO_DE_DADOS or "sqlite:///hardware_store.db", echo=True)
 
