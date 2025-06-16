@@ -84,6 +84,7 @@ pip install -r requirements.txt
 # 4. Execute o projeto
 python start.py
 ```
+
 ## 🚀 Como Executar o Projeto
 
 Após seguir os passos de instalação acima:
@@ -148,18 +149,16 @@ Este projeto foi desenvolvido para a disciplina de **Laboratório de Desenvolvim
 
 ## 👥 Equipe de Desenvolvimento
 
-**Disciplina**: Laboratório de Desenvolvimento de Software  
-**Curso**: Ciência da Computação
-**Instituição**: Universidade Veiga de Almeida (UVA)
+- **Disciplina**: Laboratório de Desenvolvimento de Software
+- **Curso**: Ciência da Computação
+- **Instituição**: Universidade Veiga de Almeida (UVA)
 
 **Desenvolvedores**:
 
 - Pedro Henrique Novais - [GitHub](https://github.com/PedroSmaxY)
 -
 -
--
+- ***
 
----
-
-**Tecnologias Utilizadas**: Python • PyQt6 • SQLAlchemy • SQLite/MySQL  
-**Padrões**: Repository Pattern • Service Layer
+  **Tecnologias Utilizadas**: Python • PyQt6 • SQLAlchemy • SQLite/MySQL  
+  **Padrões**: Repository Pattern • Service Layer
