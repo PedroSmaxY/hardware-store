@@ -61,7 +61,7 @@ class ItensVendaRepositorio:
             raise e
 
     def calcular_subtotal(self, id_item_venda: int) -> float:
-        """Calcula o subtotal de um item de venda (quantidade × preço unitário)."""
+        """Calcula o subtotal de um item de venda (quantidade x preço unitário)."""
         item = self.buscar_por_id(id_item_venda)
         if item:
             return float(item.quantidade * item.preco_unitario)
