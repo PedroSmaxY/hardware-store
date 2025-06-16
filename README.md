@@ -71,7 +71,7 @@ cd hardware-store
 uv sync
 
 # 3. Execute o projeto
-python start.py
+uv run start.py
 ```
 
 Para mais informações sobre o UV: [https://github.com/astral-sh/uv](https://github.com/astral-sh/uv)
@@ -152,7 +152,7 @@ Este projeto foi desenvolvido para a disciplina de **Laboratório de Desenvolvim
 
 **Desenvolvedores**:
 
-- Pedro Henrique Novais - [GitHub](https://github.com/pedrohnovais)
+- Pedro Henrique Novais - [GitHub](https://github.com/PedroSmaxY)
 -
 -
 -
