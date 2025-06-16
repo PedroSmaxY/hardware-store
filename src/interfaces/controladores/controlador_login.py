@@ -1,6 +1,4 @@
 # type: ignore[misc]
-# pylint: disable-all
-# mypy: ignore-errors
 
 from typing import Optional
 from PyQt6.QtWidgets import QDialog, QMessageBox
