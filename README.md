@@ -25,15 +25,6 @@ hardware-store/
         └── controladores/ # Lógica das telas (Python)
 ```
 
-## 🚀 Como Executar o Projeto
-
-### Executando via start.py
-
-```bash
-# No diretório raiz do projeto
-python start.py
-```
-
 ## 📦 Instalação e Configuração
 
 ### Método 1: Instalação do UV (Recomendado)
@@ -91,6 +82,17 @@ venv\Scripts\activate     # Windows
 pip install -r requirements.txt
 
 # 4. Execute o projeto
+python start.py
+```
+## 🚀 Como Executar o Projeto
+
+Após seguir os passos de instalação acima:
+
+```bash
+# Com UV
+uv run start.py
+
+# Ou com Python tradicional (ambiente virtual ativado)
 python start.py
 ```
 
