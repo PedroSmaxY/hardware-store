@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy_utils import database_exists, create_database  # type: ignore
 from src.configs.config_globais import URL_BANCO_DE_DADOS
 
 """
@@ -11,8 +12,12 @@ criação automática das tabelas através da classe Base declarativa.
 """
 
 Base = declarative_base()
+
 engine = create_engine(
     URL_BANCO_DE_DADOS or "sqlite:///hardware_store.db", echo=True)
+if not database_exists(engine.url):
+    create_database(engine.url)
+
 Session = sessionmaker(bind=engine)
 
 
