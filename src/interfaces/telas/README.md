@@ -2,7 +2,7 @@
 
 ## Descrição
 
-A pasta `telas` contém os arquivos de interface gráfica (.ui) criados no Qt Designer para o sistema de loja de ferragens. Esta pasta representa a camada View do padrão MVC, definindo a estrutura visual das interfaces que serão controladas pelos controladores Python.
+A pasta `telas` contém os arquivos de interface gráfica (.ui) criados no Qt Designer para o sistema de loja de hardware. Esta pasta representa a camada View do padrão MVC, definindo a estrutura visual das interfaces que serão controladas pelos controladores Python.
 
 ## Conteúdo
 

@@ -5,7 +5,7 @@ from src.configs.config_globais import URL_BANCO_DE_DADOS
 
 """
 Este arquivo define as configurações de conexão e inicialização do banco de dados
-para o sistema de loja de ferragens, utilizando SQLAlchemy como ORM. Configura
+para o sistema de loja de hardware, utilizando SQLAlchemy como ORM. Configura
 a engine SQLite, sessão de banco de dados e fornece funcionalidade para
 criação automática das tabelas através da classe Base declarativa.
 """

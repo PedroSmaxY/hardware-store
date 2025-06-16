@@ -2,7 +2,7 @@
 
 ## Descrição
 
-A pasta `controladores` implementa a camada de controle da interface gráfica do sistema de loja de ferragens, seguindo o padrão MVC (Model-View-Controller). Esta camada atua como intermediária entre as interfaces visuais (arquivos .ui) e a lógica de negócio (serviços), coordenando as interações do usuário e atualizando as views conforme necessário.
+A pasta `controladores` implementa a camada de controle da interface gráfica do sistema de loja de hardware, seguindo o padrão MVC (Model-View-Controller). Esta camada atua como intermediária entre as interfaces visuais (arquivos .ui) e a lógica de negócio (serviços), coordenando as interações do usuário e atualizando as views conforme necessário.
 
 ## Responsabilidades
 
