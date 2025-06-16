@@ -158,7 +158,9 @@ Este projeto foi desenvolvido para a disciplina de **Laboratório de Desenvolvim
 - Pedro Henrique Novais - [GitHub](https://github.com/PedroSmaxY)
 -
 -
-- ***
+-
+
+---
 
   **Tecnologias Utilizadas**: Python • PyQt6 • SQLAlchemy • SQLite/MySQL  
   **Padrões**: Repository Pattern • Service Layer
