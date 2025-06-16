@@ -156,7 +156,7 @@ Este projeto foi desenvolvido para a disciplina de **Laboratório de Desenvolvim
 **Desenvolvedores**:
 
 - Pedro Henrique Novais - [GitHub](https://github.com/PedroSmaxY)
--
+- Victor Jacques Freire Sampaio - [GitHub](https://github.com/Victor-Jacques)
 -
 -
 
