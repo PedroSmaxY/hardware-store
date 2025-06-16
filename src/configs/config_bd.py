@@ -12,7 +12,7 @@ criação automática das tabelas através da classe Base declarativa.
 
 Base = declarative_base()
 engine = create_engine(
-    URL_BANCO_DE_DADOS or "sqlite:///projeto.db", echo=True)
+    URL_BANCO_DE_DADOS or "sqlite:///hardware_store.db", echo=True)
 Session = sessionmaker(bind=engine)
 
 
