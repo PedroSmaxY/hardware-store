@@ -5,6 +5,13 @@ from src.configs.config_bd import Session as SessionLocal
 from src.modelos.tabelas_bd import Funcionario
 from src.modelos.tabelas_bd import CargoEnum
 
+"""
+Este arquivo implementa o repositório para operações CRUD da entidade Funcionario,
+seguindo o padrão Repository. Encapsula todas as operações de acesso a dados
+relacionadas aos funcionários, incluindo autenticação e controle de acesso,
+fornecendo uma camada de abstração entre o modelo de dados e a lógica de negócio.
+"""
+
 
 class FuncionarioRepositorio:
     """Repositório para operações CRUD da entidade Funcionario."""
@@ -12,9 +19,15 @@ class FuncionarioRepositorio:
     def __init__(self, session: Session | None = None):
         self.session = session or SessionLocal()
 
-    def criar(self, funcionario: Funcionario) -> Funcionario:
+    def criar(self, nome: str, nome_usuario: str, senha: str, cargo: CargoEnum) -> Funcionario:
         """Cria um novo funcionário no banco de dados."""
         try:
+            funcionario = Funcionario(
+                nome=nome,
+                nome_usuario=nome_usuario,
+                senha=senha,
+                cargo=cargo
+            )
             self.session.add(funcionario)
             self.session.commit()
             self.session.refresh(funcionario)
@@ -43,12 +56,25 @@ class FuncionarioRepositorio:
             Funcionario.cargo == cargo
         ).all()
 
-    def atualizar(self, funcionario: Funcionario) -> Funcionario:
+    def atualizar(self, id_funcionario: int, nome: Optional[str] = None,
+                  nome_usuario: Optional[str] = None, senha: Optional[str] = None,
+                  cargo: Optional[CargoEnum] = None) -> Optional[Funcionario]:
         """Atualiza um funcionário existente."""
         try:
-            self.session.merge(funcionario)
-            self.session.commit()
-            return funcionario
+            funcionario = self.buscar_por_id(id_funcionario)
+            if funcionario:
+                if nome is not None:
+                    funcionario.nome = nome
+                if nome_usuario is not None:
+                    funcionario.nome_usuario = nome_usuario
+                if senha is not None:
+                    funcionario.senha = senha
+                if cargo is not None:
+                    funcionario.cargo = cargo
+
+                self.session.commit()
+                return funcionario
+            return None
         except Exception as e:
             self.session.rollback()
             raise e
