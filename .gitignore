@@ -9,6 +9,9 @@ wheels/
 # Macos Files
 .DS_store
 
+# Environment variables
+.env
+
 # Virtual environments
 .venv
 
