@@ -55,7 +55,6 @@ class Cliente(Base):
         telefone (Optional[str]): O número de telefone do cliente (pode ser nulo).
         vendas (list["Venda"]): Uma lista de objetos Venda, estabelece um relacionamento um-para-muitos com a tabela Venda.
     """
-
     __tablename__ = 'cliente'
 
     id_cliente: Mapped[int] = mapped_column(
@@ -134,7 +133,6 @@ class Venda(Base):
             cliente (Optional[Cliente]): O objeto Cliente opcionalmente associado a esta venda. Estabelece um relacionamento com a tabela Cliente.
             itens_venda (list["ItensVenda"]): Uma lista de objetos ItensVenda associados a esta venda. Estabelece um relacionamento um-para-muitos com a tabela ItensVenda.
     """
-
     __tablename__ = 'venda'
 
     id_venda: Mapped[int] = mapped_column(
@@ -180,7 +178,6 @@ class ItensVenda(Base):
             venda (Venda): O objeto Venda ao qual este item pertence. Estabelece um relacionamento muitos-para-um com a tabela 'venda'.
             produto (Produto): O objeto Produto que foi vendido neste item. Estabelece um relacionamento muitos-para-um com a tabela 'produto'.
     """
-
     __tablename__ = 'itens_venda'
 
     id_item_venda: Mapped[int] = mapped_column(
