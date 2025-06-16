@@ -26,6 +26,12 @@ class Produto(Base):
     """
     __tablename__ = 'produto'
 
+    def __init__(self, nome: str, preco: float, descricao: Optional[str] = None, quantidade_estoque: int = 0):
+        self.nome = nome
+        self.preco = preco
+        self.descricao = descricao
+        self.quantidade_estoque = quantidade_estoque
+
     id_produto: Mapped[int] = mapped_column(
         Integer, primary_key=True, autoincrement=True)
 
@@ -56,6 +62,11 @@ class Cliente(Base):
         vendas (list["Venda"]): Uma lista de objetos Venda, estabelece um relacionamento um-para-muitos com a tabela Venda.
     """
     __tablename__ = 'cliente'
+
+    def __init__(self, nome: str, cpf: str, telefone: Optional[str] = None):
+        self.nome = nome
+        self.cpf = cpf
+        self.telefone = telefone
 
     id_cliente: Mapped[int] = mapped_column(
         Integer, primary_key=True, autoincrement=True)
@@ -100,6 +111,12 @@ class Funcionario(Base):
     """
     __tablename__ = 'funcionario'
 
+    def __init__(self, nome: str, cargo: CargoEnum, nome_usuario: str, senha: str):
+        self.nome = nome
+        self.cargo = cargo
+        self.nome_usuario = nome_usuario
+        self.senha = senha
+
     id_funcionario: Mapped[int] = mapped_column(
         Integer, primary_key=True, autoincrement=True)
 
@@ -122,7 +139,7 @@ class Funcionario(Base):
 class Venda(Base):
     """
         Representa uma venda no banco de dados.
-        
+
         Atributos:
             id_venda (int): A chave primária para a venda, autoincrementada.
             data_venda (DateTime): A data e hora em que a venda foi realizada. Não pode ser nula.
@@ -134,6 +151,12 @@ class Venda(Base):
             itens_venda (list["ItensVenda"]): Uma lista de objetos ItensVenda associados a esta venda. Estabelece um relacionamento um-para-muitos com a tabela ItensVenda.
     """
     __tablename__ = 'venda'
+
+    def __init__(self, data_venda: DateTime, id_funcionario: int, id_cliente: Optional[int], valor_total: float):
+        self.data_venda = data_venda
+        self.id_funcionario = id_funcionario
+        self.id_cliente = id_cliente
+        self.valor_total = valor_total
 
     id_venda: Mapped[int] = mapped_column(
         Integer, primary_key=True, autoincrement=True)
@@ -167,7 +190,7 @@ class ItensVenda(Base):
         Esta classe mapeia a tabela 'itens_venda' e armazena os detalhes
         de cada produto incluído em uma venda específica, como a quantidade,
         o preço unitário no momento da venda e qualquer desconto aplicado.
-        
+
         Atributos:
             id_item_venda (int): A chave primária para o item da venda, autoincrementada.
             id_venda (int): A chave estrangeira que referencia o ID da venda na tabela 'venda'. Não pode ser nula.
@@ -179,6 +202,13 @@ class ItensVenda(Base):
             produto (Produto): O objeto Produto que foi vendido neste item. Estabelece um relacionamento muitos-para-um com a tabela 'produto'.
     """
     __tablename__ = 'itens_venda'
+
+    def __init__(self, id_venda: int, id_produto: int, quantidade: int = 1, preco_unitario: float = 0.0, desconto_aplicado: Optional[float] = 0.00):
+        self.id_venda = id_venda
+        self.id_produto = id_produto
+        self.quantidade = quantidade
+        self.preco_unitario = preco_unitario
+        self.desconto_aplicado = desconto_aplicado
 
     id_item_venda: Mapped[int] = mapped_column(
         Integer, primary_key=True, autoincrement=True)
