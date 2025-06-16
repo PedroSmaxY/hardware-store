@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy_utils import database_exists, create_database  # type: ignore
+from sqlalchemy_utils import database_exists, create_database
 from src.configs.config_globais import URL_BANCO_DE_DADOS
 
 """
