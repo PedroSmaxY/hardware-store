@@ -15,6 +15,7 @@ Base = declarative_base()
 
 engine = create_engine(
     URL_BANCO_DE_DADOS or "sqlite:///hardware_store.db", echo=True)
+
 if not database_exists(engine.url):
     create_database(engine.url)
 
