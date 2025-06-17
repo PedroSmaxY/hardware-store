@@ -157,7 +157,7 @@ Este projeto foi desenvolvido para a disciplina de **Laboratório de Desenvolvim
 
 - Pedro Henrique Novais - [GitHub](https://github.com/PedroSmaxY)
 - Victor Jacques Freire Sampaio - [GitHub](https://github.com/Victor-Jacques)
--
+- Diego Tasso da Cunha Ferreira - [GitHub](https://github.com/diegotassodev)
 -
 
 ---
