@@ -2,6 +2,12 @@ import sys
 from PyQt6.QtWidgets import QApplication, QMessageBox  # type: ignore
 from src.configs.config_bd import iniciar_bd
 from src.interfaces.controladores.controlador_login import ControladorLogin
+from src.interfaces.controladores.controlador_telagerente import controlador_telagerente
+"""
+Adicionar controladores de vendedor e estoquista.
+"""
+
+
 
 """
 Arquivo principal do sistema de loja de hardware.
@@ -11,6 +17,7 @@ e coordenar o fluxo principal da aplicação.
 
 
 def main():
+
     """Função principal do sistema."""
     print("🔧 Iniciando Sistema da Loja de Hardware...")
 
@@ -25,7 +32,7 @@ def main():
 
     # Criar aplicação Qt
     app = QApplication(sys.argv)
-    app.setApplicationName("Sistema de Loja de Ferragens")
+    app.setApplicationName("Sistema de Loja de Hardware")
     app.setOrganizationName("Hardware Store")
 
     try:
@@ -39,19 +46,19 @@ def main():
             print(
                 f"✅ Login realizado! Usuário: {funcionario.nome if funcionario else 'Desconhecido'}")
 
-            # TODO: Implementar tela principal do sistema
-            QMessageBox.information(
-                None,
-                "Sistema Iniciado",
-                f"Bem-vindo(a), {funcionario.nome if funcionario else 'Usuário'}!\n\n"
-                f"Cargo: {funcionario.cargo.value if funcionario else 'N/A'}\n\n"
-                "💡 Sistema funcionando!\n"
-                "(Tela principal será implementada em breve)"
-            )
+            cargo = funcionario.cargo
 
-            # Placeholder - manter aplicação rodando
-            print("🚀 Sistema pronto para uso!")
-            print("📝 Próximos passos: Implementar tela principal")
+            if cargo.name == "GERENTE":
+                controlador = controlador_telagerente(funcionario)
+            # elif cargo.name == "ESTOQUISTA":
+            #    controlador = controlador_telaestoquista(funcionario)
+            # elif cargo.name == "VENDEDOR":
+            #    controlador = controlador_telavendedor(funcionario)
+            else:
+                QMessageBox.critical(None, "Erro", f"Cargo não reconhecido: {cargo}")
+                return
+
+            controlador.executar()  # método que você definirá em cada controlador de cargo
 
         else:
             print("🚫 Login cancelado pelo usuário.")
