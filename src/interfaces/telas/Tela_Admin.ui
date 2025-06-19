@@ -62,9 +62,9 @@
    <property name="geometry">
     <rect>
      <x>420</x>
-     <y>90</y>
+     <y>70</y>
      <width>331</width>
-     <height>631</height>
+     <height>671</height>
     </rect>
    </property>
    <property name="mouseTracking">
@@ -88,7 +88,7 @@
     <property name="font">
      <font>
       <family>Twitter Color Emoji</family>
-      <pointsize>12</pointsize>
+      <pointsize>16</pointsize>
       <italic>false</italic>
       <bold>true</bold>
      </font>
@@ -149,14 +149,30 @@
      </rect>
     </property>
    </widget>
+   <widget class="QLineEdit" name="lineEdit_2">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>620</y>
+      <width>271</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Buscar Funcionários...</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
+    </property>
+   </widget>
   </widget>
   <widget class="QFrame" name="frame_clientes">
    <property name="geometry">
     <rect>
      <x>820</x>
-     <y>90</y>
+     <y>70</y>
      <width>331</width>
-     <height>631</height>
+     <height>671</height>
     </rect>
    </property>
    <property name="mouseTracking">
@@ -180,7 +196,7 @@
     <property name="font">
      <font>
       <family>Twitter Color Emoji</family>
-      <pointsize>12</pointsize>
+      <pointsize>16</pointsize>
       <italic>false</italic>
       <bold>true</bold>
      </font>
@@ -241,14 +257,30 @@
      </rect>
     </property>
    </widget>
+   <widget class="QLineEdit" name="lineEdit_3">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>620</y>
+      <width>271</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Buscar Clientes...</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
+    </property>
+   </widget>
   </widget>
   <widget class="QFrame" name="frame_produtos">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>90</y>
+     <y>70</y>
      <width>331</width>
-     <height>631</height>
+     <height>671</height>
     </rect>
    </property>
    <property name="mouseTracking">
@@ -272,7 +304,7 @@
     <property name="font">
      <font>
       <family>Twitter Color Emoji</family>
-      <pointsize>12</pointsize>
+      <pointsize>16</pointsize>
       <italic>false</italic>
       <bold>true</bold>
      </font>
@@ -331,6 +363,22 @@
       <width>291</width>
       <height>401</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>620</y>
+      <width>271</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Buscar Produtos...</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
    </widget>
   </widget>
