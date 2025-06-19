@@ -376,7 +376,7 @@
     </property>
     <property name="font">
      <font>
-      <family>Twitter Color Emoji</family>
+      <family>FreeSans</family>
       <bold>false</bold>
       <kerning>false</kerning>
      </font>
