@@ -34,10 +34,10 @@ class FuncionarioServico:
             raise Exception("Nome de usuário já existe no sistema")
 
         funcionario = Funcionario(
-            nome=nome.strip(),
+            nome=nome.strip().capitalize(),
             cargo=cargo,
             nome_usuario=nome_usuario.strip(),
-            senha_hash=self.criptografar_senha(senha)
+            senha=self.criptografar_senha(senha)
         )
 
         return self.funcionario_repo.salvar(funcionario)
@@ -81,7 +81,7 @@ class FuncionarioServico:
             if len(senha) < 6:
                 raise Exception(
                     "Senha deve ter pelo menos 6 caracteres")
-            funcionario.senha_hash = self.criptografar_senha(senha)
+            funcionario.senha = self.criptografar_senha(senha)
 
         return self.funcionario_repo.atualizar(funcionario)
 
@@ -105,7 +105,7 @@ class FuncionarioServico:
         if not funcionario:
             raise Exception("Credenciais inválidas")
 
-        if not self.verificar_senha(senha, funcionario.senha_hash):
+        if not self.verificar_senha(senha, funcionario.senha):
             raise Exception("Credenciais inválidas")
 
         return funcionario
