@@ -288,7 +288,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Funcionários</string>
+     <string>Produto</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignmentFlag::AlignCenter</set>
