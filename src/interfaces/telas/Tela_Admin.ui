@@ -6,92 +6,60 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>900</width>
+    <width>1178</width>
     <height>776</height>
    </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>Twitter Color Emoji</family>
+    <bold>false</bold>
+   </font>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QTableView" name="tableView">
+  <widget class="QTableView" name="tableView_funcionarios">
    <property name="geometry">
     <rect>
-     <x>515</x>
+     <x>440</x>
      <y>170</y>
      <width>291</width>
      <height>401</height>
     </rect>
    </property>
   </widget>
-  <widget class="QTableView" name="tableView_2">
+  <widget class="QLabel" name="label_titulo">
    <property name="geometry">
     <rect>
-     <x>120</x>
-     <y>160</y>
-     <width>291</width>
-     <height>401</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>230</x>
-     <y>120</y>
-     <width>81</width>
-     <height>16</height>
+     <x>-10</x>
+     <y>20</y>
+     <width>1191</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Usuários</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>620</x>
-     <y>120</y>
-     <width>81</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Produtos</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_3">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>60</y>
-     <width>141</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>14</pointsize>
+     <family>Twitter Color Emoji</family>
+     <pointsize>20</pointsize>
+     <bold>true</bold>
     </font>
    </property>
    <property name="text">
     <string>Painel Admin</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="botao_deslogar">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>20</y>
+     <x>1080</x>
+     <y>10</y>
      <width>93</width>
      <height>28</height>
     </rect>
@@ -100,84 +68,280 @@
     <string>Deslogar</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QFrame" name="frame_funcionarios">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>600</y>
-     <width>121</width>
-     <height>28</height>
+     <x>420</x>
+     <y>90</y>
+     <width>331</width>
+     <height>631</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Adicionar Usuário</string>
+   <property name="mouseTracking">
+    <bool>false</bool>
    </property>
+   <property name="frameShape">
+    <enum>QFrame::Shape::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Raised</enum>
+   </property>
+   <widget class="QLabel" name="label_funcionarios">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>30</y>
+      <width>331</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Twitter Color Emoji</family>
+      <pointsize>12</pointsize>
+      <italic>false</italic>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Funcionários</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="botao_adicionarUsuario">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>500</y>
+      <width>271</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Adicionar Funcionario</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="botao_editarUsuario">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>540</y>
+      <width>271</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Editar Funcionario</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="botao_excluirUsuario">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>580</y>
+      <width>271</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Excluir Funcionario</string>
+    </property>
+   </widget>
   </widget>
-  <widget class="QPushButton" name="pushButton_3">
+  <widget class="QTableView" name="tableView_funcionarios_2">
    <property name="geometry">
     <rect>
-     <x>610</x>
-     <y>600</y>
-     <width>121</width>
-     <height>28</height>
+     <x>840</x>
+     <y>170</y>
+     <width>291</width>
+     <height>401</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Adicionar Produto</string>
-   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_4">
+  <widget class="QFrame" name="frame_funcionarios_2">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>640</y>
-     <width>121</width>
-     <height>28</height>
+     <x>820</x>
+     <y>90</y>
+     <width>331</width>
+     <height>631</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Editar Usuário</string>
+   <property name="mouseTracking">
+    <bool>false</bool>
    </property>
+   <property name="frameShape">
+    <enum>QFrame::Shape::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Raised</enum>
+   </property>
+   <widget class="QLabel" name="label_funcionarios_2">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>30</y>
+      <width>331</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Twitter Color Emoji</family>
+      <pointsize>12</pointsize>
+      <italic>false</italic>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Clientes</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="botao_adicionarUsuario_2">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>500</y>
+      <width>271</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Adicionar Cliente</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="botao_editarUsuario_2">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>540</y>
+      <width>271</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Editar Cliente</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="botao_excluirUsuario_2">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>580</y>
+      <width>271</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Excluir Cliente</string>
+    </property>
+   </widget>
   </widget>
-  <widget class="QPushButton" name="pushButton_5">
+  <widget class="QTableView" name="tableView_funcionarios_3">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>680</y>
-     <width>121</width>
-     <height>28</height>
+     <x>40</x>
+     <y>170</y>
+     <width>291</width>
+     <height>401</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Excluir Usuário</string>
-   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_6">
+  <widget class="QFrame" name="frame_funcionarios_3">
    <property name="geometry">
     <rect>
-     <x>610</x>
-     <y>640</y>
-     <width>121</width>
-     <height>28</height>
+     <x>20</x>
+     <y>90</y>
+     <width>331</width>
+     <height>631</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Editar Produto</string>
+   <property name="mouseTracking">
+    <bool>false</bool>
    </property>
+   <property name="frameShape">
+    <enum>QFrame::Shape::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Raised</enum>
+   </property>
+   <widget class="QLabel" name="label_funcionarios_3">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>30</y>
+      <width>331</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Twitter Color Emoji</family>
+      <pointsize>12</pointsize>
+      <italic>false</italic>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Funcionários</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="botao_adicionarUsuario_3">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>500</y>
+      <width>271</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Adicionar Produto</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="botao_editarUsuario_3">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>540</y>
+      <width>271</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Editar Produto</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="botao_excluirUsuario_3">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>580</y>
+      <width>271</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Excluir Produto</string>
+    </property>
+   </widget>
   </widget>
-  <widget class="QPushButton" name="pushButton_7">
-   <property name="geometry">
-    <rect>
-     <x>610</x>
-     <y>680</y>
-     <width>121</width>
-     <height>28</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Excluir Produto</string>
-   </property>
-  </widget>
+  <zorder>frame_funcionarios</zorder>
+  <zorder>tableView_funcionarios</zorder>
+  <zorder>label_titulo</zorder>
+  <zorder>botao_deslogar</zorder>
+  <zorder>tableView_funcionarios_2</zorder>
+  <zorder>frame_funcionarios_2</zorder>
+  <zorder>tableView_funcionarios_3</zorder>
+  <zorder>frame_funcionarios_3</zorder>
  </widget>
  <resources/>
  <connections/>
