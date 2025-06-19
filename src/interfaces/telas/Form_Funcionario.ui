@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>349</width>
-    <height>330</height>
+    <height>351</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,37 +29,37 @@
   <widget class="QLineEdit" name="lineEdit_nome">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>190</x>
      <y>90</y>
      <width>113</width>
      <height>22</height>
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="label_descricao">
+  <widget class="QLabel" name="label_cargo">
    <property name="geometry">
     <rect>
      <x>40</x>
      <y>130</y>
-     <width>121</width>
+     <width>51</width>
      <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>Descrição</string>
+    <string>Cargo</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_descricao">
+  <widget class="QLineEdit" name="lineEdit_cargo">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>190</x>
      <y>130</y>
      <width>113</width>
      <height>22</height>
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="label_quantidadeEstoque">
+  <widget class="QLabel" name="label_nomeUsuario">
    <property name="geometry">
     <rect>
      <x>40</x>
@@ -69,14 +69,37 @@
     </rect>
    </property>
    <property name="text">
-    <string>Quantidade Estoque</string>
+    <string>Nome do Usuario</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_quantidadeEstoque">
+  <widget class="QLabel" name="label_senha">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>40</x>
+     <y>210</y>
+     <width>51</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Senha</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_nomeUsuario">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
      <y>170</y>
+     <width>113</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_senha">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>210</y>
      <width>113</width>
      <height>22</height>
     </rect>
@@ -99,7 +122,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Produto</string>
+    <string>Funcionário</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -109,39 +132,13 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>260</y>
-     <width>281</width>
+     <y>270</y>
+     <width>261</width>
      <height>28</height>
     </rect>
    </property>
    <property name="text">
     <string>Enviar</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEdit_preco">
-   <property name="geometry">
-    <rect>
-     <x>210</x>
-     <y>210</y>
-     <width>113</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_preco">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>210</y>
-     <width>51</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Preço</string>
    </property>
   </widget>
  </widget>

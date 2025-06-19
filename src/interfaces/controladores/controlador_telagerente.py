@@ -48,8 +48,8 @@ class SimpleTableModel(QAbstractTableModel):
         if role == Qt.ItemDataRole.DisplayRole and orientation == Qt.Orientation.Horizontal:
             return self._columns[section]
 
-
 class controlador_telagerente:
+
     """
     Controlador principal da tela administrativa, conecta UI e serviços.
     Responsável pelo carregamento, busca, adição, edição e exclusão.
@@ -203,12 +203,62 @@ class controlador_telagerente:
         )
 
     def adicionar_usuario(self):
-        """Placeholder para adicionar funcionário."""
-        QMessageBox.information(self.dialog, "Adicionar", "Função de adicionar funcionário não implementada.")
+            form = uic.loadUi("src/interfaces/telas/Form_Usuario.ui")
+            form.setWindowTitle("Cadastrar Funcionário")
+
+            form.botao_enviarDados.clicked.connect(lambda: self._salvar_usuario(form))
+            form.exec()
 
     def editar_usuario(self):
-        """Placeholder para editar funcionário."""
-        QMessageBox.information(self.dialog, "Editar", "Função de editar funcionário não implementada.")
+        sel = self.dialog.tableView_funcionarios.selectionModel().selectedRows()
+        if not sel:
+            QMessageBox.warning(self.dialog, "Atenção", "Selecione um funcionário para editar.")
+            return
+
+        func = self.modelo_func._data[sel[0].row()]
+        form = uic.loadUi("src/interfaces/telas/Form_Usuario.ui")
+        form.setWindowTitle(f"Editar Funcionário - {func.nome}")
+
+        form.lineEdit_nome.setText(func.nome)
+        form.lineEdit_nomeUsuario.setText(func.nome_usuario)
+        form.comboBox_Cargo.setCurrentText(func.cargo.value)  # Ajustar se necessário para match exato
+
+        # Senha vazia = não alterar
+        form.lineEdit_senha.setText("")
+
+        form.botao_enviarDados.clicked.connect(lambda: self._atualizar_usuario(form, func.id_funcionario))
+        form.exec()
+
+    def _salvar_usuario(self, form):
+        try:
+            nome = form.lineEdit_nome.text().strip()
+            nome_usuario = form.lineEdit_nomeUsuario.text().strip()
+            senha = form.lineEdit_senha.text()
+            cargo_str = form.comboBox_Cargo.currentText()
+            cargo = CargoEnum(cargo_str)  # Converte string para enum
+
+            self.funcionario_servico.criar_funcionario(nome, cargo, nome_usuario, senha)
+            QMessageBox.information(form, "Sucesso", "Funcionário cadastrado com sucesso.")
+            form.close()
+            self.atualizar_lista_funcionarios()
+        except Exception as e:
+            QMessageBox.critical(form, "Erro", str(e))
+
+    def _atualizar_usuario(self, form, id_funcionario):
+        try:
+            nome = form.lineEdit_nome.text().strip()
+            senha = form.lineEdit_senha.text()
+            cargo_str = form.comboBox_Cargo.currentText()
+            cargo = CargoEnum(cargo_str)
+
+            senha_param = senha if senha else None
+
+            self.funcionario_servico.atualizar_funcionario(id_funcionario, nome=nome, cargo=cargo, senha=senha_param)
+            QMessageBox.information(form, "Sucesso", "Funcionário atualizado com sucesso.")
+            form.close()
+            self.atualizar_lista_funcionarios()
+        except Exception as e:
+            QMessageBox.critical(form, "Erro", str(e))
 
     def excluir_usuario(self):
         """Exclui funcionário selecionado da tabela, com confirmação e tratamento de erros."""
@@ -226,12 +276,57 @@ class controlador_telagerente:
             QMessageBox.critical(self.dialog, "Erro", f"Erro ao excluir: {e}")
 
     def adicionar_produto(self):
-        """Placeholder para adicionar produto."""
-        QMessageBox.information(self.dialog, "Adicionar", "Função de adicionar produto não implementada.")
+        form = uic.loadUi("src/interfaces/telas/Form_Produto.ui")
+        form.setWindowTitle("Cadastrar Produto")
+
+        form.botao_enviarDados.clicked.connect(lambda: self._salvar_produto(form))
+        form.exec()
 
     def editar_produto(self):
-        """Placeholder para editar produto."""
-        QMessageBox.information(self.dialog, "Editar", "Função de editar produto não implementada.")
+        sel = self.dialog.tableView_produtos.selectionModel().selectedRows()
+        if not sel:
+            QMessageBox.warning(self.dialog, "Atenção", "Selecione um produto para editar.")
+            return
+
+        prod = self.modelo_prod._data[sel[0].row()]
+        form = uic.loadUi("src/interfaces/telas/Form_Produto.ui")
+        form.setWindowTitle(f"Editar Produto - {prod.nome}")
+
+        form.lineEdit_nome.setText(prod.nome)
+        form.lineEdit_descricao.setText(prod.descricao)
+        form.lineEdit_quantidadeEstoque.setText(str(prod.quantidade_estoque))
+        form.lineEdit_preco.setText(f"{prod.preco:.2f}")
+
+        form.botao_enviarDados.clicked.connect(lambda: self._atualizar_produto(form, prod.id_produto))
+        form.exec()
+
+    def _salvar_produto(self, form):
+        try:
+            nome = form.lineEdit_nome.text().strip()
+            descricao = form.lineEdit_descricao.text().strip()
+            quantidade = int(form.lineEdit_quantidadeEstoque.text())
+            preco = float(form.lineEdit_preco.text())
+
+            self.produto_servico.criar_produto(nome, descricao, quantidade, preco)
+            QMessageBox.information(form, "Sucesso", "Produto cadastrado com sucesso.")
+            form.close()
+            self.atualizar_lista_produtos()
+        except Exception as e:
+            QMessageBox.critical(form, "Erro", str(e))
+
+    def _atualizar_produto(self, form, id_produto):
+        try:
+            nome = form.lineEdit_nome.text().strip()
+            descricao = form.lineEdit_descricao.text().strip()
+            quantidade = int(form.lineEdit_quantidadeEstoque.text())
+            preco = float(form.lineEdit_preco.text())
+
+            self.produto_servico.atualizar_produto(id_produto, nome, descricao, quantidade, preco)
+            QMessageBox.information(form, "Sucesso", "Produto atualizado com sucesso.")
+            form.close()
+            self.atualizar_lista_produtos()
+        except Exception as e:
+            QMessageBox.critical(form, "Erro", str(e))
 
     def excluir_produto(self):
         """Exclui produto selecionado da tabela, com confirmação e tratamento de erros."""
@@ -249,12 +344,53 @@ class controlador_telagerente:
             QMessageBox.critical(self.dialog, "Erro", f"Erro ao excluir: {e}")
 
     def adicionar_cliente(self):
-        """Placeholder para adicionar cliente."""
-        QMessageBox.information(self.dialog, "Adicionar", "Função de adicionar cliente não implementada.")
+        form = uic.loadUi("src/interfaces/telas/Form_Cliente.ui")
+        form.setWindowTitle("Cadastrar Cliente")
+
+        form.botao_enviarDados.clicked.connect(lambda: self._salvar_cliente(form))
+        form.exec()
 
     def editar_cliente(self):
-        """Placeholder para editar cliente."""
-        QMessageBox.information(self.dialog, "Editar", "Função de editar cliente não implementada.")
+        sel = self.dialog.tableView_clientes.selectionModel().selectedRows()
+        if not sel:
+            QMessageBox.warning(self.dialog, "Atenção", "Selecione um cliente para editar.")
+            return
+
+        cli = self.modelo_cliente._data[sel[0].row()]
+        form = uic.loadUi("src/interfaces/telas/Form_Cliente.ui")
+        form.setWindowTitle(f"Editar Cliente - {cli.nome}")
+
+        form.lineEdit_nome.setText(cli.nome)
+        form.lineEdit_cpf.setText(cli.cpf)
+        form.lineEdit_telefone.setText(cli.telefone)
+
+        form.botao_enviarDados.clicked.connect(lambda: self._atualizar_cliente(form, cli.id_cliente))
+        form.exec()
+
+    def _salvar_cliente(self, form):
+        try:
+            nome = form.lineEdit_nome.text().strip()
+            cpf = form.lineEdit_cpf.text().strip()
+            telefone = form.lineEdit_telefone.text().strip()
+
+            self.cliente_servico.criar_cliente(nome, cpf, telefone)
+            QMessageBox.information(form, "Sucesso", "Cliente cadastrado com sucesso.")
+            form.close()
+            self.atualizar_lista_clientes()
+        except Exception as e:
+            QMessageBox.critical(form, "Erro", str(e))
+
+    def _atualizar_cliente(self, form, id_cliente):
+        try:
+            nome = form.lineEdit_nome.text().strip()
+            telefone = form.lineEdit_telefone.text().strip()
+
+            self.cliente_servico.atualizar_cliente(id_cliente, nome, telefone)
+            QMessageBox.information(form, "Sucesso", "Cliente atualizado com sucesso.")
+            form.close()
+            self.atualizar_lista_clientes()
+        except Exception as e:
+            QMessageBox.critical(form, "Erro", str(e))
 
     def excluir_cliente(self):
         """Exclui cliente selecionado da tabela, com confirmação e tratamento de erros."""

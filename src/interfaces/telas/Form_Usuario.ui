@@ -6,146 +6,143 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>491</width>
-    <height>406</height>
+    <width>335</width>
+    <height>351</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="label_nome">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>50</y>
-     <width>41</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Nome:</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
+     <x>40</x>
      <y>90</y>
-     <width>41</width>
+     <width>51</width>
      <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>Idade:</string>
+    <string>Nome</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_3">
+  <widget class="QLineEdit" name="lineEdit_nome">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>130</y>
-     <width>41</width>
-     <height>16</height>
+     <x>190</x>
+     <y>90</y>
+     <width>113</width>
+     <height>22</height>
     </rect>
    </property>
-   <property name="text">
-    <string>CPF:</string>
-   </property>
   </widget>
-  <widget class="QLabel" name="label_4">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>170</y>
-     <width>41</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Email:</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_5">
+  <widget class="QLabel" name="label_cargo">
    <property name="geometry">
     <rect>
      <x>40</x>
      <y>210</y>
      <width>51</width>
-     <height>16</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>Celular:</string>
+    <string>Cargo</string>
    </property>
   </widget>
-  <widget class="QDateEdit" name="dateEditNascimento">
+  <widget class="QLabel" name="label_nomeUsuario">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>90</y>
-     <width>110</width>
-     <height>22</height>
+     <x>40</x>
+     <y>130</y>
+     <width>161</width>
+     <height>20</height>
     </rect>
    </property>
-   <property name="calendarPopup">
-    <bool>true</bool>
+   <property name="text">
+    <string>Nome do Usuario</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QLabel" name="label_senha">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>40</x>
+     <y>170</y>
+     <width>51</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Senha</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_nomeUsuario">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
      <y>130</y>
      <width>113</width>
      <height>22</height>
     </rect>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_2">
+  <widget class="QLineEdit" name="lineEdit_senha">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>190</x>
      <y>170</y>
      <width>113</width>
      <height>22</height>
     </rect>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_3">
+  <widget class="QLabel" name="label_titulo">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>210</y>
-     <width>113</width>
-     <height>22</height>
+     <x>0</x>
+     <y>10</y>
+     <width>351</width>
+     <height>71</height>
     </rect>
    </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEdit_4">
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>50</y>
-     <width>113</width>
-     <height>22</height>
-    </rect>
+   <property name="font">
+    <font>
+     <family>Twitter Color Emoji</family>
+     <pointsize>16</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Funcionário</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox">
+  <widget class="QPushButton" name="botao_enviarDados">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>40</x>
      <y>260</y>
-     <width>111</width>
-     <height>22</height>
+     <width>261</width>
+     <height>28</height>
     </rect>
    </property>
-   <property name="editable">
-    <bool>false</bool>
+   <property name="text">
+    <string>Enviar</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_Cargo">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>210</y>
+     <width>111</width>
+     <height>28</height>
+    </rect>
    </property>
    <item>
     <property name="text">
-     <string>Admin</string>
+     <string>Gerente</string>
     </property>
    </item>
    <item>
@@ -153,19 +150,11 @@
      <string>Vendedor</string>
     </property>
    </item>
-  </widget>
-  <widget class="QLabel" name="label_6">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>260</y>
-     <width>55</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Função:</string>
-   </property>
+   <item>
+    <property name="text">
+     <string>Estoquista</string>
+    </property>
+   </item>
   </widget>
  </widget>
  <resources/>
