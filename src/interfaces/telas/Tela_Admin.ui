@@ -19,16 +19,6 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QTableView" name="tableView_funcionarios">
-   <property name="geometry">
-    <rect>
-     <x>440</x>
-     <y>170</y>
-     <width>291</width>
-     <height>401</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_titulo">
    <property name="geometry">
     <rect>
@@ -110,7 +100,7 @@
      <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QPushButton" name="botao_adicionarUsuario">
+   <widget class="QPushButton" name="botao_adicionarFuncionario">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -123,7 +113,7 @@
      <string>Adicionar Funcionario</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="botao_editarUsuario">
+   <widget class="QPushButton" name="botao_editarFuncionario">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -136,7 +126,7 @@
      <string>Editar Funcionario</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="botao_excluirUsuario">
+   <widget class="QPushButton" name="botao_excluirFuncionario">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -149,18 +139,18 @@
      <string>Excluir Funcionario</string>
     </property>
    </widget>
+   <widget class="QTableView" name="tableView_funcionarios">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>70</y>
+      <width>291</width>
+      <height>401</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
-  <widget class="QTableView" name="tableView_funcionarios_2">
-   <property name="geometry">
-    <rect>
-     <x>840</x>
-     <y>170</y>
-     <width>291</width>
-     <height>401</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QFrame" name="frame_funcionarios_2">
+  <widget class="QFrame" name="frame_clientes">
    <property name="geometry">
     <rect>
      <x>820</x>
@@ -178,7 +168,7 @@
    <property name="frameShadow">
     <enum>QFrame::Shadow::Raised</enum>
    </property>
-   <widget class="QLabel" name="label_funcionarios_2">
+   <widget class="QLabel" name="label_clientes">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -202,7 +192,7 @@
      <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QPushButton" name="botao_adicionarUsuario_2">
+   <widget class="QPushButton" name="botao_adicionarCliente">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -215,7 +205,7 @@
      <string>Adicionar Cliente</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="botao_editarUsuario_2">
+   <widget class="QPushButton" name="botao_editarCliente">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -228,7 +218,7 @@
      <string>Editar Cliente</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="botao_excluirUsuario_2">
+   <widget class="QPushButton" name="botao_excluirCliente">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -241,18 +231,18 @@
      <string>Excluir Cliente</string>
     </property>
    </widget>
+   <widget class="QTableView" name="tableView_clientes">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>70</y>
+      <width>291</width>
+      <height>401</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
-  <widget class="QTableView" name="tableView_funcionarios_3">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>170</y>
-     <width>291</width>
-     <height>401</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QFrame" name="frame_funcionarios_3">
+  <widget class="QFrame" name="frame_produtos">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -270,7 +260,7 @@
    <property name="frameShadow">
     <enum>QFrame::Shadow::Raised</enum>
    </property>
-   <widget class="QLabel" name="label_funcionarios_3">
+   <widget class="QLabel" name="label_produtos">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -294,7 +284,7 @@
      <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QPushButton" name="botao_adicionarUsuario_3">
+   <widget class="QPushButton" name="botao_adicionarProduto">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -307,7 +297,7 @@
      <string>Adicionar Produto</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="botao_editarUsuario_3">
+   <widget class="QPushButton" name="botao_editarProduto">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -320,7 +310,7 @@
      <string>Editar Produto</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="botao_excluirUsuario_3">
+   <widget class="QPushButton" name="botao_excluirProduto">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -333,15 +323,22 @@
      <string>Excluir Produto</string>
     </property>
    </widget>
+   <widget class="QTableView" name="tableView_produtos">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>70</y>
+      <width>291</width>
+      <height>401</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <zorder>frame_funcionarios</zorder>
-  <zorder>tableView_funcionarios</zorder>
   <zorder>label_titulo</zorder>
   <zorder>botao_deslogar</zorder>
-  <zorder>tableView_funcionarios_2</zorder>
-  <zorder>frame_funcionarios_2</zorder>
-  <zorder>tableView_funcionarios_3</zorder>
-  <zorder>frame_funcionarios_3</zorder>
+  <zorder>frame_clientes</zorder>
+  <zorder>frame_produtos</zorder>
  </widget>
  <resources/>
  <connections/>
