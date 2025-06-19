@@ -12,7 +12,7 @@ e coordenar o fluxo principal da aplicação.
 
 def main():
     """Função principal do sistema."""
-    print("🔧 Iniciando Sistema de Loja de Ferragens...")
+    print("🔧 Iniciando Sistema da Loja de Hardware...")
 
     # Inicializar banco de dados
     try:

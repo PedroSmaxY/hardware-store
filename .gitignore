@@ -21,3 +21,6 @@ wheels/
 # Databases
 *.db
 *.sqlite
+
+# Testes
+teste.py

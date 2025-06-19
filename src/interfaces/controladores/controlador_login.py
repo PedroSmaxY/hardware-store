@@ -4,6 +4,7 @@ from typing import Optional
 from PyQt6.QtWidgets import QDialog, QMessageBox
 from PyQt6 import uic
 from src.modelos.tabelas_bd import Funcionario, CargoEnum
+from src.configs.config_bd import Session
 
 """
 Controlador responsável por gerenciar a tela de login do sistema,
@@ -62,8 +63,8 @@ class ControladorLogin:
             return
 
         try:
-            # MOCK - Simular autenticação (remover quando serviço estiver pronto)
-            funcionario = self.autenticar_mock(usuario, senha)
+            # Autenticando funcionário dentro do sistema.
+            funcionario = self.autenticar_funcionario(usuario, senha)
 
             if funcionario:
                 self.funcionario_logado = funcionario
@@ -78,30 +79,15 @@ class ControladorLogin:
             self.mostrar_erro(f"Erro ao fazer login: {str(e)}")
             self.limpar_campos()
 
-    def autenticar_mock(self, usuario: str, senha: str) -> Optional[Funcionario]:
-        """MOCK - Simula autenticação de funcionário."""
-        # Usuários de teste
-        usuarios_teste = {
-            "admin": {"senha": "123456", "nome": "Administrador", "cargo": CargoEnum.GERENTE},
-            "vendedor": {"senha": "123", "nome": "João Vendedor", "cargo": CargoEnum.VENDEDOR},
-            "estoquista": {"senha": "456", "nome": "Maria Estoque", "cargo": CargoEnum.ESTOQUISTA}
-        }
-
-        if usuario in usuarios_teste and usuarios_teste[usuario]["senha"] == senha:
-            # Criar funcionário mock
-            dados = usuarios_teste[usuario]
-            funcionario = Funcionario(
-                nome=dados["nome"],
+    def autenticar_funcionario(self, usuario: str, senha: str) -> Optional[Funcionario]:
+        """Autentica o funcionário com base nos dados do banco."""
+        with Session() as session:
+            funcionario = session.query(Funcionario).filter_by(
                 nome_usuario=usuario,
-                senha=senha,
-                cargo=dados["cargo"],
-                salario=3000.0
-            )
-            # Simular ID do banco
-            funcionario.id = 1
-            return funcionario
+                senha=senha
+            ).first()
 
-        return None
+            return funcionario
 
     def limpar_campos(self):
         """Limpa os campos de usuário e senha."""

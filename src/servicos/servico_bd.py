@@ -1,7 +1,7 @@
 
 from typing import List, Optional
 from datetime import datetime
-from src.repositorios.repositorios_bd import (
+from src.repositorios import (
     ProdutoRepositorio, ClienteRepositorio, FuncionarioRepositorio,
     VendaRepositorio, ItensVendaRepositorio
 )
