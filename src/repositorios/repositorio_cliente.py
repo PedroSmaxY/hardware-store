@@ -17,6 +17,17 @@ class ClienteRepositorio:
     def __init__(self, session: Session | None = None):
         self.session = session or SessionLocal()
 
+    def salvar(self, cliente: Cliente) -> Cliente:
+        """Salva um cliente no banco de dados."""
+        try:
+            self.session.add(cliente)
+            self.session.commit()
+            self.session.refresh(cliente)
+            return cliente
+        except Exception as e:
+            self.session.rollback()
+            raise e
+
     def criar(self, nome: str, cpf: str, telefone: Optional[str] = None) -> Cliente:
         """Cria um novo cliente no banco de dados."""
         try:
@@ -55,9 +66,19 @@ class ClienteRepositorio:
         """Busca um cliente pelo telefone."""
         return self.session.query(Cliente).filter(Cliente.telefone == telefone).first()
 
-    def atualizar(self, id_cliente: int, nome: Optional[str] = None, cpf: Optional[str] = None,
-                  telefone: Optional[str] = None) -> Optional[Cliente]:
+    def atualizar(self, cliente: Cliente) -> Cliente:
         """Atualiza um cliente existente."""
+        try:
+            self.session.merge(cliente)
+            self.session.commit()
+            return cliente
+        except Exception as e:
+            self.session.rollback()
+            raise e
+
+    def atualizar_por_id(self, id_cliente: int, nome: Optional[str] = None, cpf: Optional[str] = None,
+                         telefone: Optional[str] = None) -> Optional[Cliente]:
+        """Atualiza um cliente existente por ID."""
         try:
             cliente = self.buscar_por_id(id_cliente)
             if cliente:
@@ -94,3 +115,7 @@ class ClienteRepositorio:
         if id_cliente:
             query = query.filter(Cliente.id_cliente != id_cliente)
         return query.first() is not None
+
+    def fechar_sessao(self):
+        """Fecha a sessão do banco de dados."""
+        self.session.close()

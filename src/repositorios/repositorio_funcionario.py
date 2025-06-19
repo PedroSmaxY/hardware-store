@@ -19,13 +19,24 @@ class FuncionarioRepositorio:
     def __init__(self, session: Session | None = None):
         self.session = session or SessionLocal()
 
-    def criar(self, nome: str, nome_usuario: str, senha: str, cargo: CargoEnum) -> Funcionario:
+    def salvar(self, funcionario: Funcionario) -> Funcionario:
+        """Salva um funcionário no banco de dados."""
+        try:
+            self.session.add(funcionario)
+            self.session.commit()
+            self.session.refresh(funcionario)
+            return funcionario
+        except Exception as e:
+            self.session.rollback()
+            raise e
+
+    def criar(self, nome: str, nome_usuario: str, senha_hash: str, cargo: CargoEnum) -> Funcionario:
         """Cria um novo funcionário no banco de dados."""
         try:
             funcionario = Funcionario(
                 nome=nome,
                 nome_usuario=nome_usuario,
-                senha=senha,
+                senha_hash=senha_hash,
                 cargo=cargo
             )
             self.session.add(funcionario)
@@ -38,7 +49,7 @@ class FuncionarioRepositorio:
 
     def buscar_por_id(self, id_funcionario: int) -> Optional[Funcionario]:
         """Busca um funcionário pelo ID."""
-        return self.session.query(Funcionario).filter(Funcionario.id == id_funcionario).first()
+        return self.session.query(Funcionario).filter(Funcionario.id_funcionario == id_funcionario).first()
 
     def buscar_todos(self) -> List[Funcionario]:
         """Retorna todos os funcionários cadastrados."""
@@ -56,10 +67,26 @@ class FuncionarioRepositorio:
             Funcionario.cargo == cargo
         ).all()
 
-    def atualizar(self, id_funcionario: int, nome: Optional[str] = None,
-                  nome_usuario: Optional[str] = None, senha: Optional[str] = None,
-                  cargo: Optional[CargoEnum] = None) -> Optional[Funcionario]:
+    def buscar_por_nome(self, nome: str) -> List[Funcionario]:
+        """Busca funcionários pelo nome (busca parcial)."""
+        return self.session.query(Funcionario).filter(
+            Funcionario.nome.ilike(f"%{nome}%")
+        ).all()
+
+    def atualizar(self, funcionario: Funcionario) -> Funcionario:
         """Atualiza um funcionário existente."""
+        try:
+            self.session.merge(funcionario)
+            self.session.commit()
+            return funcionario
+        except Exception as e:
+            self.session.rollback()
+            raise e
+
+    def atualizar_por_id(self, id_funcionario: int, nome: Optional[str] = None,
+                         nome_usuario: Optional[str] = None, senha_hash: Optional[str] = None,
+                         cargo: Optional[CargoEnum] = None) -> Optional[Funcionario]:
+        """Atualiza um funcionário existente por ID."""
         try:
             funcionario = self.buscar_por_id(id_funcionario)
             if funcionario:
@@ -67,8 +94,8 @@ class FuncionarioRepositorio:
                     funcionario.nome = nome
                 if nome_usuario is not None:
                     funcionario.nome_usuario = nome_usuario
-                if senha is not None:
-                    funcionario.senha = senha
+                if senha_hash is not None:
+                    funcionario.senha_hash = senha_hash
                 if cargo is not None:
                     funcionario.cargo = cargo
 
@@ -92,11 +119,27 @@ class FuncionarioRepositorio:
             self.session.rollback()
             raise e
 
-    def autenticar(self, nome_usuario: str, senha: str) -> Optional[Funcionario]:
-        """Autentica um funcionário pelo nome de usuário e senha."""
+    def autenticar(self, nome_usuario: str, senha_hash: str) -> Optional[Funcionario]:
+        """Autentica um funcionário pelo nome de usuário e senha hash."""
         return self.session.query(Funcionario).filter(
             and_(
                 Funcionario.nome_usuario == nome_usuario,
-                Funcionario.senha == senha
+                Funcionario.senha_hash == senha_hash
             )
         ).first()
+
+    def verificar_nome_usuario_existe(self, nome_usuario: str, id_funcionario: Optional[int] = None) -> bool:
+        """Verifica se um nome de usuário já existe no banco (exceto para o próprio funcionário)."""
+        query = self.session.query(Funcionario).filter(
+            Funcionario.nome_usuario == nome_usuario)
+        if id_funcionario:
+            query = query.filter(Funcionario.id_funcionario != id_funcionario)
+        return query.first() is not None
+
+    def contar_funcionarios_por_cargo(self, cargo: CargoEnum) -> int:
+        """Conta quantos funcionários existem de um cargo específico."""
+        return self.session.query(Funcionario).filter(Funcionario.cargo == cargo).count()
+
+    def fechar_sessao(self):
+        """Fecha a sessão do banco de dados."""
+        self.session.close()

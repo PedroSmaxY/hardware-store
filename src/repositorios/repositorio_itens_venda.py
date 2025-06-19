@@ -18,6 +18,17 @@ class ItensVendaRepositorio:
     def __init__(self, session: Session | None = None):
         self.session = session or SessionLocal()
 
+    def salvar(self, item_venda: ItensVenda) -> ItensVenda:
+        """Salva um item de venda no banco de dados."""
+        try:
+            self.session.add(item_venda)
+            self.session.commit()
+            self.session.refresh(item_venda)
+            return item_venda
+        except Exception as e:
+            self.session.rollback()
+            raise e
+
     def criar(self, id_venda: int, id_produto: int, quantidade: int = 1,
               preco_unitario: float = 0.0, desconto_aplicado: Optional[float] = 0.00) -> ItensVenda:
         """Cria um novo item de venda no banco de dados."""
@@ -65,10 +76,20 @@ class ItensVendaRepositorio:
             ItensVenda.id_produto == id_produto
         ).all()
 
-    def atualizar(self, id_item_venda: int, id_venda: Optional[int] = None, id_produto: Optional[int] = None,
-                  quantidade: Optional[int] = None, preco_unitario: Optional[float] = None,
-                  desconto_aplicado: Optional[float] = None) -> Optional[ItensVenda]:
+    def atualizar(self, item_venda: ItensVenda) -> ItensVenda:
         """Atualiza um item de venda existente."""
+        try:
+            self.session.merge(item_venda)
+            self.session.commit()
+            return item_venda
+        except Exception as e:
+            self.session.rollback()
+            raise e
+
+    def atualizar_por_id(self, id_item_venda: int, id_venda: Optional[int] = None, id_produto: Optional[int] = None,
+                         quantidade: Optional[int] = None, preco_unitario: Optional[float] = None,
+                         desconto_aplicado: Optional[float] = None) -> Optional[ItensVenda]:
+        """Atualiza um item de venda existente por ID."""
         try:
             item_venda = self.buscar_por_id(id_item_venda)
             if item_venda:
@@ -138,3 +159,51 @@ class ItensVendaRepositorio:
         return self.session.query(ItensVenda).filter(
             ItensVenda.id_venda == id_venda
         ).count()
+
+    def buscar_todos(self) -> List[ItensVenda]:
+        """Busca todos os itens de venda."""
+        return self.session.query(ItensVenda).all()
+
+    def buscar_com_desconto(self) -> List[ItensVenda]:
+        """Busca itens de venda que tiveram desconto aplicado."""
+        return self.session.query(ItensVenda).filter(
+            ItensVenda.desconto_aplicado > 0
+        ).all()
+
+    def calcular_total_descontos_venda(self, id_venda: int) -> float:
+        """Calcula o total de descontos aplicados em uma venda."""
+        resultado = self.session.query(
+            func.sum(func.coalesce(ItensVenda.desconto_aplicado, 0))
+        ).filter(ItensVenda.id_venda == id_venda).scalar()
+
+        return float(resultado) if resultado else 0.0
+
+    def buscar_itens_por_preco_range(self, preco_minimo: float, preco_maximo: float) -> List[ItensVenda]:
+        """Busca itens de venda dentro de uma faixa de preço unitário."""
+        return self.session.query(ItensVenda).filter(
+            ItensVenda.preco_unitario >= preco_minimo,
+            ItensVenda.preco_unitario <= preco_maximo
+        ).all()
+
+    def buscar_produtos_mais_vendidos(self, limite: int = 10) -> List[dict]:
+        """Busca os produtos mais vendidos baseado na quantidade de itens vendidos."""
+        resultado = self.session.query(
+            ItensVenda.id_produto,
+            func.sum(ItensVenda.quantidade).label('total_vendido'),
+            func.count(ItensVenda.id_item_venda).label('numero_vendas')
+        ).group_by(ItensVenda.id_produto).order_by(
+            func.sum(ItensVenda.quantidade).desc()
+        ).limit(limite).all()
+
+        return [
+            {
+                "id_produto": r.id_produto,
+                "total_vendido": r.total_vendido,
+                "numero_vendas": r.numero_vendas
+            }
+            for r in resultado
+        ]
+
+    def fechar_sessao(self):
+        """Fecha a sessão do banco de dados."""
+        self.session.close()

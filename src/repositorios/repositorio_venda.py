@@ -19,6 +19,17 @@ class VendaRepositorio:
     def __init__(self, session: Session | None = None):
         self.session = session or SessionLocal()
 
+    def salvar(self, venda: Venda) -> Venda:
+        """Salva uma venda no banco de dados."""
+        try:
+            self.session.add(venda)
+            self.session.commit()
+            self.session.refresh(venda)
+            return venda
+        except Exception as e:
+            self.session.rollback()
+            raise e
+
     def criar(self, data_venda: datetime, id_funcionario: int,
               id_cliente: Optional[int] = None, valor_total: float = 0.0,
               desconto_aplicado: float = 0.0) -> Venda:
@@ -31,17 +42,6 @@ class VendaRepositorio:
                 valor_total=valor_total,
                 desconto_aplicado=desconto_aplicado
             )
-            self.session.add(venda)
-            self.session.commit()
-            self.session.refresh(venda)
-            return venda
-        except Exception as e:
-            self.session.rollback()
-            raise e
-
-    def salvar(self, venda: Venda) -> Venda:
-        """Salva uma venda no banco de dados."""
-        try:
             self.session.add(venda)
             self.session.commit()
             self.session.refresh(venda)
