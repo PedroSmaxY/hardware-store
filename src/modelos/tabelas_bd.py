@@ -152,11 +152,12 @@ class Venda(Base):
     """
     __tablename__ = 'venda'
 
-    def __init__(self, data_venda: DateTime, id_funcionario: int, id_cliente: Optional[int], valor_total: float):
+    def __init__(self, data_venda: DateTime, id_funcionario: int, id_cliente: Optional[int]):
         self.data_venda = data_venda
         self.id_funcionario = id_funcionario
         self.id_cliente = id_cliente
-        self.valor_total = valor_total
+        self.valor_total = 0.0
+        self.desconto_total = 0.0
 
     id_venda: Mapped[int] = mapped_column(
         Integer, primary_key=True, autoincrement=True)
@@ -169,13 +170,21 @@ class Venda(Base):
     id_cliente: Mapped[Optional[int]] = mapped_column(
         ForeignKey('cliente.id_cliente'))
 
-    valor_total: Mapped[float] = mapped_column(Numeric(10, 2), nullable=False)
+    valor_total: Mapped[float] = mapped_column(
+        Numeric(10, 2),
+        nullable=False,
+        default=0.0
+    )
+
+    desconto_total: Mapped[float] = mapped_column(
+        Numeric(10, 2),
+        nullable=False,
+        default=0.0
+    )
 
     funcionario: Mapped["Funcionario"] = relationship(back_populates="vendas")
-
     cliente: Mapped[Optional["Cliente"]] = relationship(
         back_populates="vendas")
-
     itens_venda: Mapped[list["ItensVenda"]
                         ] = relationship(back_populates="venda")
 

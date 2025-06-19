@@ -1,4 +1,5 @@
-import datetime
+from datetime import datetime
+from decimal import Decimal
 from typing import List, Optional
 from src.modelos.tabelas_bd import Venda, ItensVenda
 from src.servicos.servico_produto import ProdutoServico
@@ -25,15 +26,12 @@ class VendaServico:
     def criar_venda(self, id_funcionario: int, id_cliente: int = None) -> Venda:
         """RF05 - Registro de Venda"""
         if id_funcionario <= 0:
-            raise Exception(
-                "ID do funcionário deve ser maior que zero")
+            raise Exception("ID do funcionário deve ser maior que zero")
 
         venda = Venda(
             id_funcionario=id_funcionario,
             id_cliente=id_cliente,
-            data_venda=datetime.now(),
-            valor_total=0.0,
-            desconto_aplicado=0.0
+            data_venda=datetime.now()
         )
 
         return self.venda_repo.salvar(venda)
@@ -73,21 +71,13 @@ class VendaServico:
         """RF13 - Processamento de Pagamento"""
         venda = self.venda_repo.buscar_por_id(id_venda)
         if not venda:
-            raise Exception(
-                f"Venda com ID {id_venda} não encontrada")
+            raise Exception(f"Venda com ID {id_venda} não encontrada")
 
-        # Calcula valor total
-        valor_total = self.calcular_valor_total_venda(id_venda)
-        venda.valor_total = valor_total
-
-        # Aplica desconto se cliente cadastrado (RN02)
+        # Apenas aplica desconto se cliente cadastrado (RN02)
         if venda.id_cliente:
-            desconto = min(valor_total * 0.05, valor_total *
-                           0.10)  # máximo 10% (RN06)
-            venda.desconto_aplicado = desconto
-            venda.valor_total = valor_total - desconto
+            pass
 
-        return self.venda_repo.atualizar(venda)
+        return venda
 
     def cancelar_venda(self, id_venda: int) -> bool:
         """Cancela uma venda e retorna produtos ao estoque"""
@@ -113,13 +103,13 @@ class VendaServico:
         return sum(item.quantidade * item.preco_unitario - item.desconto_aplicado for item in itens)
 
     def adicionar_item_venda(self, id_venda: int, id_produto: int, quantidade: int,
-                             desconto_aplicado: float = 0.0) -> ItensVenda:
+                             percentual_desconto: float = 0.0) -> ItensVenda:
         """RF09 - Adicionar Itens ao Carrinho"""
+
         # Verifica se a venda existe
         venda = self.venda_repo.buscar_por_id(id_venda)
         if not venda:
-            raise Exception(
-                f"Venda com ID {id_venda} não encontrada")
+            raise Exception(f"Venda com ID {id_venda} não encontrada")
 
         # Verifica estoque disponível (RN03)
         if not self.produto_servico.verificar_estoque_disponivel(id_produto, quantidade):
@@ -128,23 +118,38 @@ class VendaServico:
 
         produto = self.produto_servico.buscar_produto_por_id(id_produto)
         if not produto:
-            raise Exception(
-                f"Produto com ID {id_produto} não encontrado")
+            raise Exception(f"Produto com ID {id_produto} não encontrado")
 
-        # Valida desconto (RN06)
-        if desconto_aplicado > produto.preco * quantidade * 0.10:
-            raise Exception(
-                "Desconto não pode exceder 10% do valor do item")
+        # Aplicar desconto automático para clientes cadastrados (RN02)
+        if venda.id_cliente and percentual_desconto == 0.0:
+            percentual_desconto = 5.0  # 5% para clientes cadastrados
+
+        # Valida percentual de desconto (RN06)
+        if percentual_desconto < 0 or percentual_desconto > 10:
+            raise Exception("Percentual de desconto deve estar entre 0% e 10%")
+
+        # Calcula o valor do desconto
+        valor_item = float(produto.preco) * quantidade
+        desconto_aplicado = valor_item * (percentual_desconto / 100)
 
         item_venda = ItensVenda(
             id_venda=id_venda,
             id_produto=id_produto,
             quantidade=quantidade,
-            preco_unitario=produto.preco,
+            preco_unitario=float(produto.preco),
             desconto_aplicado=desconto_aplicado
         )
 
-        return self.itens_venda_repo.salvar(item_venda)
+        # Salva o item
+        item_salvo = self.itens_venda_repo.salvar(item_venda)
+
+        # Atualiza os totais da venda
+        self._sincronizar_totais_venda(id_venda)
+
+        # Reduz o estoque do produto
+        self.produto_servico.reduzir_estoque(id_produto, quantidade)
+
+        return item_salvo
 
     def remover_item_venda(self, id_item_venda: int) -> bool:
         """RF10 - Remover Itens do Carrinho"""
@@ -153,4 +158,47 @@ class VendaServico:
             raise Exception(
                 f"Item de venda com ID {id_item_venda} não encontrado")
 
-        return self.itens_venda_repo.deletar(id_item_venda)
+        id_venda = item.id_venda
+
+        # Remove o item
+        sucesso = self.itens_venda_repo.deletar(id_item_venda)
+
+        if sucesso:
+            self.produto_servico.produto_repo.aumentar_estoque(
+                item.id_produto, item.quantidade)
+
+            self._sincronizar_totais_venda(id_venda)
+
+        return sucesso
+
+    def _sincronizar_totais_venda(self, id_venda: int):
+        """Recalcula e atualiza os totais da venda no banco."""
+        itens = self.itens_venda_repo.buscar_por_venda(id_venda)
+
+        valor_total = 0.0
+        desconto_total = 0.0
+
+        for item in itens:
+            valor_bruto = float(item.quantidade * item.preco_unitario)
+            desconto_item = float(item.desconto_aplicado or 0.0)
+
+            valor_total += (valor_bruto - desconto_item)
+            desconto_total += desconto_item
+
+        self.venda_repo.atualizar_totais_venda(
+            id_venda, valor_total, desconto_total)
+
+    def calcular_valor_total_venda(self, id_venda: int) -> float:
+        """Calcula o valor total da venda, incluindo descontos aplicados."""
+        venda = self.venda_repo.buscar_por_id(id_venda)
+        return float(venda.valor_total) if venda else 0.0
+
+    def finalizar_venda(self, id_venda: int) -> Venda:
+        """RF13 - Processamento de Pagamento"""
+        venda = self.venda_repo.buscar_por_id(id_venda)
+        if not venda:
+            raise Exception(f"Venda com ID {id_venda} não encontrada")
+
+        self._sincronizar_totais_venda(id_venda)
+
+        return self.venda_repo.buscar_por_id(id_venda)
