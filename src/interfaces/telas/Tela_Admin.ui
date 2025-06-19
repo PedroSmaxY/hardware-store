@@ -12,7 +12,7 @@
   </property>
   <property name="font">
    <font>
-    <family>Twitter Color Emoji</family>
+    <family>FreeSans</family>
     <bold>false</bold>
    </font>
   </property>
@@ -149,7 +149,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_2">
+   <widget class="QLineEdit" name="lineEdit_buscaFuncionarios">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -159,7 +159,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Buscar Funcionários...</string>
+     <string>Buscar Funcionários por ID...</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -257,7 +257,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_3">
+   <widget class="QLineEdit" name="lineEdit_buscaClientes">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -267,7 +267,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Buscar Clientes...</string>
+     <string>Buscar Clientes por ID...</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -365,7 +365,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="lineEdit_buscaProdutos">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -374,8 +374,18 @@
       <height>28</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Twitter Color Emoji</family>
+      <bold>false</bold>
+      <kerning>false</kerning>
+     </font>
+    </property>
+    <property name="mouseTracking">
+     <bool>false</bool>
+    </property>
     <property name="text">
-     <string>Buscar Produtos...</string>
+     <string>Buscar Produtos por ID...</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignmentFlag::AlignCenter</set>
