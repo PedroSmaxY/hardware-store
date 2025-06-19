@@ -30,17 +30,13 @@ class VendaRepositorio:
             self.session.rollback()
             raise e
 
-    def criar(self, data_venda: datetime, id_funcionario: int,
-              id_cliente: Optional[int] = None, valor_total: float = 0.0,
-              desconto_aplicado: float = 0.0) -> Venda:
+    def criar(self, data_venda: datetime, id_funcionario: int, id_cliente: Optional[int] = None) -> Venda:
         """Cria uma nova venda no banco de dados."""
         try:
             venda = Venda(
                 data_venda=data_venda,
                 id_funcionario=id_funcionario,
-                id_cliente=id_cliente,
-                valor_total=valor_total,
-                desconto_aplicado=desconto_aplicado
+                id_cliente=id_cliente
             )
             self.session.add(venda)
             self.session.commit()
@@ -115,8 +111,8 @@ class VendaRepositorio:
             raise e
 
     def atualizar_por_id(self, id_venda: int, data_venda: Optional[datetime] = None,
-                         id_funcionario: Optional[int] = None, id_cliente: Optional[int] = None,
-                         valor_total: Optional[float] = None, desconto_aplicado: Optional[float] = None) -> Optional[Venda]:
+                         id_funcionario: Optional[int] = None,
+                         id_cliente: Optional[int] = None) -> Optional[Venda]:
         """Atualiza uma venda existente por ID."""
         try:
             venda = self.buscar_por_id(id_venda)
@@ -127,14 +123,24 @@ class VendaRepositorio:
                     venda.id_funcionario = id_funcionario
                 if id_cliente is not None:
                     venda.id_cliente = id_cliente
-                if valor_total is not None:
-                    venda.valor_total = valor_total
-                if desconto_aplicado is not None:
-                    venda.desconto_aplicado = desconto_aplicado
 
                 self.session.commit()
                 return venda
             return None
+        except Exception as e:
+            self.session.rollback()
+            raise e
+
+    def atualizar_totais_venda(self, id_venda: int, valor_total: float, desconto_total: float) -> bool:
+        """Atualiza os totais da venda no banco."""
+        try:
+            venda = self.buscar_por_id(id_venda)
+            if venda:
+                venda.valor_total = valor_total
+                venda.desconto_total = desconto_total
+                self.session.commit()
+                return True
+            return False
         except Exception as e:
             self.session.rollback()
             raise e
@@ -188,6 +194,36 @@ class VendaRepositorio:
         resultado = self.session.query(func.sum(Venda.valor_total)).scalar()
         return float(resultado) if resultado else 0.0
 
+    def calcular_total_descontos(self) -> float:
+        """Calcula o valor total de todos os descontos."""
+        resultado = self.session.query(func.sum(Venda.desconto_total)).scalar()
+        return float(resultado) if resultado else 0.0
+
+    def buscar_maior_venda(self) -> Optional[Venda]:
+        """Busca a venda com maior valor."""
+        return self.session.query(Venda).order_by(
+            Venda.valor_total.desc()
+        ).first()
+
+    def calcular_totais_por_venda(self, id_venda: int) -> dict:
+        """Calcula valor total e desconto total de uma venda."""
+        itens = self.buscar_por_venda(id_venda)
+
+        valor_total = 0.0
+        desconto_total = 0.0
+
+        for item in itens:
+            valor_bruto = item.quantidade * item.preco_unitario
+            desconto_item = item.desconto_aplicado or 0.0
+
+            valor_total += (valor_bruto - desconto_item)
+            desconto_total += desconto_item
+
+        return {
+            "valor_total": valor_total,
+            "desconto_total": desconto_total
+        }
+
     def calcular_total_vendas_funcionario(self, id_funcionario: int) -> float:
         """Calcula o valor total de vendas de um funcionário específico."""
         resultado = self.session.query(func.sum(Venda.valor_total)).filter(
@@ -217,23 +253,12 @@ class VendaRepositorio:
         resultado = self.session.query(func.avg(Venda.valor_total)).scalar()
         return float(resultado) if resultado else 0.0
 
-    def calcular_total_descontos(self) -> float:
-        """Calcula o valor total de descontos aplicados."""
-        resultado = self.session.query(
-            func.sum(Venda.desconto_aplicado)).scalar()
-        return float(resultado) if resultado else 0.0
-
-    def buscar_maior_venda(self) -> Optional[Venda]:
-        """Busca a venda com maior valor."""
-        return self.session.query(Venda).order_by(
-            Venda.valor_total.desc()
-        ).first()
-
     def buscar_menor_venda(self) -> Optional[Venda]:
         """Busca a venda com menor valor."""
-        return self.session.query(Venda).order_by(
-            Venda.valor_total.asc()
-        ).first()
+        rvendas = self.buscar_todos()
+        if rvendas:
+            return min(rvendas, key=lambda v: v.valor_total)
+        return None
 
     def buscar_vendas_sem_cliente(self) -> List[Venda]:
         """Busca vendas que não possuem cliente associado."""

@@ -20,7 +20,11 @@ class ItensVendaServico:
         self.produto_servico = ProdutoServico()
 
     def criar_item_venda(self, id_venda: int, id_produto: int, quantidade: int,
-                         preco_unitario: float, desconto_aplicado: float = 0.0) -> ItensVenda:
+                         desconto_aplicado: float = 0.0) -> ItensVenda:
+
+        preco_unitario = self.produto_servico.buscar_produto_por_id(
+            id_produto).preco
+
         # Validações
         if quantidade <= 0:
             raise Exception("Quantidade deve ser maior que zero")
