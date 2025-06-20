@@ -2,7 +2,7 @@ import sys
 from PyQt6.QtWidgets import QApplication, QMessageBox  # type: ignore
 from src.configs.config_bd import iniciar_bd
 from src.interfaces.controladores.controlador_login import ControladorLogin
-from src.interfaces.controladores.controlador_telagerente import controlador_telagerente
+from src.interfaces.controladores.controlador_telagerente import ControladorTelaGerente
 """
 Adicionar controladores de vendedor e estoquista.
 """
@@ -49,7 +49,7 @@ def main():
             cargo = funcionario.cargo
 
             if cargo.name == "GERENTE":
-                controlador = controlador_telagerente(funcionario)
+                controlador = ControladorTelaGerente(funcionario)
             # elif cargo.name == "ESTOQUISTA":
             #    controlador = controlador_telaestoquista(funcionario)
             # elif cargo.name == "VENDEDOR":
