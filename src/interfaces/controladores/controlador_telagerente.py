@@ -1,110 +1,106 @@
 # type: ignore[misc]
 
+from typing import List
 from PyQt6.QtWidgets import QDialog, QMessageBox
 from PyQt6 import uic
 from PyQt6.QtCore import Qt, QAbstractTableModel
-from typing import List
-from src.modelos.tabelas_bd import Funcionario, Produto, Cliente
+
+from src.modelos.tabelas_bd import Funcionario, Produto, Cliente, CargoEnum
 from src.servicos.servico_funcionario import FuncionarioServico
 from src.servicos.servico_produto import ProdutoServico
 from src.servicos.servico_cliente import ClienteServico
 
-
 class SimpleTableModel(QAbstractTableModel):
     """
-    Modelo para exibição do crud em uma lista simples.
-    Recebe dados, nomes das colunas e função para mapear objetos em linhas.
+    Modelo de tabela simples para uso com QTableView, 
+    parametrizado para qualquer lista de objetos com colunas dinâmicas.
     """
 
     def __init__(self, data: List, columns: List[str], row_to_values_func):
-        super().__init__()
-        self._data = data                      # Lista de objetos a exibir
-        self._columns = columns                # Lista dos nomes das colunas
-        self._row_to_values = row_to_values_func  # Função que extrai valores da linha
 
+        super().__init__()
+        self._data = data
+        self._columns = columns
+        self._row_to_values = row_to_values_func
+
+    """Construção do modelo do CRUD / Tabela."""
     def rowCount(self, parent=None) -> int:
-        """Quantidade de linhas da tabela, igual ao número de objetos."""
         return len(self._data)
 
     def columnCount(self, parent=None) -> int:
-        """Quantidade de colunas, baseada no tamanho da lista de colunas."""
+        
         return len(self._columns)
 
     def data(self, index, role):
-        """
-        Retorna o dado para o índice dado, apenas para exibição.
-        Ignora outras funções como edição, tooltip etc.
-        """
         if not index.isValid() or role != Qt.ItemDataRole.DisplayRole:
             return None
         row_obj = self._data[index.row()]
-        # Retorna o valor da célula segundo a função de mapeamento
         return self._row_to_values(row_obj)[index.column()]
 
     def headerData(self, section, orientation, role):
-        """
-        Cabeçalhos horizontais da tabela (nomes das colunas).
-        """
         if role == Qt.ItemDataRole.DisplayRole and orientation == Qt.Orientation.Horizontal:
             return self._columns[section]
 
-class controlador_telagerente:
 
+class ControladorTelaGerente:
     """
-    Controlador principal da tela administrativa, conecta UI e serviços.
-    Responsável pelo carregamento, busca, adição, edição e exclusão.
+    Controlador principal da interface administrativa para gerenciar funcionários,
+    produtos e clientes, com operações CRUD integradas aos serviços.
     """
 
     def __init__(self, funcionario_logado: Funcionario):
-        # Funcionário que está logado no sistema
+        """
+        Inicializa a tela e serviços, além de carregar a interface gráfica e os dados iniciais.
+        Define o título da janela com o nome do usuário logado.
+        """
         self.funcionario_logado = funcionario_logado
 
-        # Instância da camada de serviço para interação com dados
+        # Instância os serviços que lidam com a lógica de negócio
         self.funcionario_servico = FuncionarioServico()
         self.produto_servico = ProdutoServico()
         self.cliente_servico = ClienteServico()
 
-        # Carrega a interface da UI via arquivo .ui do Qt Designer
+        # Carrega a interface Qt Designer e define título com nome do funcionário logado
         self.dialog: QDialog = uic.loadUi("src/interfaces/telas/Tela_Admin.ui")
         self.dialog.setWindowTitle(f"Painel Admin - {funcionario_logado.nome}")
 
-        # Configura conexões dos eventos dos widgets da interface
         self.conectar_eventos()
-
-        # Atualiza os CRUDS exibidos ao abrir a tela
         self.atualizar_listas()
 
     def conectar_eventos(self):
-        """Vincula sinais dos botões e campos de texto às funções correspondentes."""
-        # Botão para sair / deslogar
+        """
+        Conecta os sinais dos botões e campos de busca aos métodos correspondentes,
+        permitindo interação do usuário.
+        """
+        # Botão de logout
         self.dialog.botao_deslogar.clicked.connect(self.deslogar)
 
-        # Eventos para CRUD funcionários e busca
-        self.dialog.botao_adicionarFuncionario.clicked.connect(self.adicionar_usuario)
-        self.dialog.botao_editarFuncionario.clicked.connect(self.editar_usuario)
-        self.dialog.botao_excluirFuncionario.clicked.connect(self.excluir_usuario)
+        # Eventos relacionados a funcionários
+        self.dialog.botao_adicionarFuncionario.clicked.connect(self.adicionar_funcionario)
+        self.dialog.botao_editarFuncionario.clicked.connect(self.editar_funcionario)
+        self.dialog.botao_excluirFuncionario.clicked.connect(self.excluir_funcionario)
         self.dialog.lineEdit_buscaFuncionarios.textChanged.connect(self.buscar_funcionarios)
 
-        # Eventos para CRUD produtos e busca
+        # Eventos relacionados a produtos
         self.dialog.botao_adicionarProduto.clicked.connect(self.adicionar_produto)
         self.dialog.botao_editarProduto.clicked.connect(self.editar_produto)
         self.dialog.botao_excluirProduto.clicked.connect(self.excluir_produto)
         self.dialog.lineEdit_buscaProdutos.textChanged.connect(self.buscar_produtos)
 
-        # Eventos para CRUD clientes e busca
+        # Eventos relacionados a clientes
         self.dialog.botao_adicionarCliente.clicked.connect(self.adicionar_cliente)
         self.dialog.botao_editarCliente.clicked.connect(self.editar_cliente)
         self.dialog.botao_excluirCliente.clicked.connect(self.excluir_cliente)
         self.dialog.lineEdit_buscaClientes.textChanged.connect(self.buscar_clientes)
 
     def atualizar_listas(self):
-        """Atualiza todas as tabelas da interface com dados atuais."""
+        """Atualiza todas as tabelas da interface com os dados atuais do banco."""
         self.atualizar_lista_funcionarios()
         self.atualizar_lista_produtos()
         self.atualizar_lista_clientes()
 
     def atualizar_lista_funcionarios(self):
-        """Carrega e exibe todos os funcionários na tabela correspondente."""
+        """Atualiza a tabela de funcionários com dados atuais."""
         funcionarios = self.funcionario_servico.buscar_todos_funcionarios()
         self.modelo_func = SimpleTableModel(
             funcionarios,
@@ -114,7 +110,7 @@ class controlador_telagerente:
         self.dialog.tableView_funcionarios.setModel(self.modelo_func)
 
     def atualizar_lista_produtos(self):
-        """Carrega e exibe todos os produtos na tabela correspondente."""
+        """Atualiza a tabela de produtos com dados atuais."""
         produtos = self.produto_servico.buscar_todos_produtos()
         self.modelo_prod = SimpleTableModel(
             produtos,
@@ -124,7 +120,7 @@ class controlador_telagerente:
         self.dialog.tableView_produtos.setModel(self.modelo_prod)
 
     def atualizar_lista_clientes(self):
-        """Carrega e exibe todos os clientes na tabela correspondente."""
+        """Atualiza a tabela de clientes com dados atuais."""
         clientes = self.cliente_servico.buscar_todos_clientes()
         self.modelo_cliente = SimpleTableModel(
             clientes,
@@ -135,8 +131,9 @@ class controlador_telagerente:
 
     def buscar_funcionarios(self):
         """
-        Busca funcionário(s) por ID digitado na caixa de texto,
-        ou exibe todos se o campo estiver vazio.
+        Busca funcionário(s) por ID digitado no campo de busca.
+        Se vazio, exibe todos os funcionários.
+        O valor escrito, deve ser um número.
         """
         termo = self.dialog.lineEdit_buscaFuncionarios.text().strip()
 
@@ -158,8 +155,9 @@ class controlador_telagerente:
 
     def buscar_produtos(self):
         """
-        Busca produto(s) por ID digitado na caixa de texto,
-        ou exibe todos se o campo estiver vazio.
+        Busca produto(s) por ID digitado no campo de busca.
+        Se vazio, exibe todos os produtos.
+        O valor escrito, deve ser um número.
         """
         termo = self.dialog.lineEdit_buscaProdutos.text().strip()
 
@@ -181,8 +179,9 @@ class controlador_telagerente:
 
     def buscar_clientes(self):
         """
-        Busca cliente(s) por ID digitado na caixa de texto,
-        ou exibe todos se o campo estiver vazio.
+        Busca cliente(s) por ID digitado no campo de busca.
+        Se vazio, exibe todos os clientes.
+        O valor escrito, deve ser um número.
         """
         termo = self.dialog.lineEdit_buscaClientes.text().strip()
 
@@ -202,34 +201,49 @@ class controlador_telagerente:
             )
         )
 
-    def adicionar_usuario(self):
-            form = uic.loadUi("src/interfaces/telas/Form_Usuario.ui")
-            form.setWindowTitle("Cadastrar Funcionário")
+    def adicionar_funcionario(self):
+        """
+        Abre o formulário para cadastro de novo funcionário e conecta o botão de envio
+        à função que processa a criação.
+        """
 
-            form.botao_enviarDados.clicked.connect(lambda: self._salvar_usuario(form))
-            form.exec()
+        form = uic.loadUi("src/interfaces/telas/Form_Funcionario.ui")
+        form.setWindowTitle("Cadastrar Funcionário") # Define o título da tela.
 
-    def editar_usuario(self):
+        form.botao_enviarDados.clicked.connect(lambda: self._salvar_funcionario(form)) # Define a função executada pelo botão de enviar.
+        form.exec()
+
+    def editar_funcionario(self):
+        """
+        Abre o formulário de edição para o funcionário selecionado na tabela.
+        Se nenhum for selecionado, exibe aviso.
+        """
         sel = self.dialog.tableView_funcionarios.selectionModel().selectedRows()
         if not sel:
             QMessageBox.warning(self.dialog, "Atenção", "Selecione um funcionário para editar.")
             return
 
         func = self.modelo_func._data[sel[0].row()]
-        form = uic.loadUi("src/interfaces/telas/Form_Usuario.ui")
+        form = uic.loadUi("src/interfaces/telas/Form_Funcionario.ui")
         form.setWindowTitle(f"Editar Funcionário - {func.nome}")
 
+        # Preenche os campos com dados atuais do funcionário
         form.lineEdit_nome.setText(func.nome)
         form.lineEdit_nomeUsuario.setText(func.nome_usuario)
-        form.comboBox_Cargo.setCurrentText(func.cargo.value)  # Ajustar se necessário para match exato
+        form.comboBox_Cargo.setCurrentText(func.cargo.value)
 
-        # Senha vazia = não alterar
+        # Campo senha fica vazio para não alterar a menos que o usuário digite
         form.lineEdit_senha.setText("")
 
-        form.botao_enviarDados.clicked.connect(lambda: self._atualizar_usuario(form, func.id_funcionario))
+        form.botao_enviarDados.clicked.connect(lambda: self._atualizar_funcionario(form, func.id_funcionario))
         form.exec()
 
-    def _salvar_usuario(self, form):
+    def _salvar_funcionario(self, form):
+        """
+        Processa o cadastro de funcionário após submissão do formulário,
+        capturando dados, chamando serviço e atualizando a lista.
+        Exibe mensagem de erro caso ocorra exceção.
+        """
         try:
             nome = form.lineEdit_nome.text().strip()
             nome_usuario = form.lineEdit_nomeUsuario.text().strip()
@@ -244,38 +258,50 @@ class controlador_telagerente:
         except Exception as e:
             QMessageBox.critical(form, "Erro", str(e))
 
-    def _atualizar_usuario(self, form, id_funcionario):
+    def _atualizar_funcionario(self, form, id_funcionario):
+        """
+        Processa a atualização do funcionário após submissão do formulário de edição,
+        aceitando atualização condicional da senha e atualizando lista após sucesso.
+        """
         try:
             nome = form.lineEdit_nome.text().strip()
+            nome_usuario = form.lineEdit_nomeUsuario.text().strip() 
             senha = form.lineEdit_senha.text()
             cargo_str = form.comboBox_Cargo.currentText()
             cargo = CargoEnum(cargo_str)
 
-            senha_param = senha if senha else None
+            senha_param = senha if senha else None  # Se vazio, não altera a senha
 
-            self.funcionario_servico.atualizar_funcionario(id_funcionario, nome=nome, cargo=cargo, senha=senha_param)
+            self.funcionario_servico.atualizar_funcionario(
+                id_funcionario,
+                nome=nome,
+                cargo=cargo,
+                nome_usuario=nome_usuario, 
+                senha=senha_param
+            )
+
             QMessageBox.information(form, "Sucesso", "Funcionário atualizado com sucesso.")
             form.close()
             self.atualizar_lista_funcionarios()
         except Exception as e:
             QMessageBox.critical(form, "Erro", str(e))
 
-    def excluir_usuario(self):
-        """Exclui funcionário selecionado da tabela, com confirmação e tratamento de erros."""
-        selecao = self.dialog.tableView_funcionarios.selectionModel().selectedRows()
-        if not selecao:
-            QMessageBox.warning(self.dialog, "Atenção", "Selecione um funcionário para excluir.")
-            return
-        linha = selecao[0].row()
-        id_funcionario = self.modelo_func._data[linha].id_funcionario
-        try:
-            self.funcionario_servico.deletar_funcionario(id_funcionario)
-            self.atualizar_lista_funcionarios()
-            QMessageBox.information(self.dialog, "Sucesso", "Funcionário excluído com sucesso.")
-        except Exception as e:
-            QMessageBox.critical(self.dialog, "Erro", f"Erro ao excluir: {e}")
+    def excluir_funcionario(self, id_funcionario: int) -> bool:
+        """
+        Deleta funcionário pelo ID.
+        Lança exceção se não encontrar funcionário com o ID.
+        Retorna o resultado da operação via serviço.
+        """
+        funcionario = self.funcionario_servico.buscar_funcionario_por_id(id_funcionario)
+        if not funcionario:
+            raise Exception(f"Funcionário com ID {id_funcionario} não encontrado")
+        return self.funcionario_servico.deletar(id_funcionario)
 
     def adicionar_produto(self):
+        """
+        Abre o formulário para cadastro de novo produto,
+        conectando o botão de envio à função de criação.
+        """
         form = uic.loadUi("src/interfaces/telas/Form_Produto.ui")
         form.setWindowTitle("Cadastrar Produto")
 
@@ -283,6 +309,11 @@ class controlador_telagerente:
         form.exec()
 
     def editar_produto(self):
+        """
+        Abre formulário para editar produto selecionado.
+        Exibe aviso se nenhum selecionado.
+        Preenche os campos com dados atuais do produto.
+        """
         sel = self.dialog.tableView_produtos.selectionModel().selectedRows()
         if not sel:
             QMessageBox.warning(self.dialog, "Atenção", "Selecione um produto para editar.")
@@ -301,6 +332,10 @@ class controlador_telagerente:
         form.exec()
 
     def _salvar_produto(self, form):
+        """
+        Processa o cadastro de produto após submissão do formulário,
+        validando e enviando para o serviço, atualizando lista em caso de sucesso.
+        """
         try:
             nome = form.lineEdit_nome.text().strip()
             descricao = form.lineEdit_descricao.text().strip()
@@ -315,6 +350,10 @@ class controlador_telagerente:
             QMessageBox.critical(form, "Erro", str(e))
 
     def _atualizar_produto(self, form, id_produto):
+        """
+        Processa atualização de produto, semelhante ao cadastro,
+        alterando dados conforme formulário e atualizando a lista.
+        """
         try:
             nome = form.lineEdit_nome.text().strip()
             descricao = form.lineEdit_descricao.text().strip()
@@ -328,22 +367,20 @@ class controlador_telagerente:
         except Exception as e:
             QMessageBox.critical(form, "Erro", str(e))
 
-    def excluir_produto(self):
-        """Exclui produto selecionado da tabela, com confirmação e tratamento de erros."""
-        selecao = self.dialog.tableView_produtos.selectionModel().selectedRows()
-        if not selecao:
-            QMessageBox.warning(self.dialog, "Atenção", "Selecione um produto para excluir.")
-            return
-        linha = selecao[0].row()
-        id_produto = self.modelo_prod._data[linha].id_produto
-        try:
-            self.produto_servico.deletar_produto(id_produto)
-            self.atualizar_lista_produtos()
-            QMessageBox.information(self.dialog, "Sucesso", "Produto excluído com sucesso.")
-        except Exception as e:
-            QMessageBox.critical(self.dialog, "Erro", f"Erro ao excluir: {e}")
+    def excluir_produto(self, id_produto: int) -> bool:
+        """
+        Deleta produto pelo ID, lança exceção se não encontrado,
+        e retorna resultado da operação.
+        """
+        produto = self.produto_servico.buscar_produto_por_id(id_produto)
+        if not produto:
+            raise Exception(f"Produto com ID {id_produto} não encontrado")
+        return self.produto_servico.deletar(id_produto)
 
     def adicionar_cliente(self):
+        """
+        Abre formulário para cadastro de cliente e conecta botão de envio.
+        """
         form = uic.loadUi("src/interfaces/telas/Form_Cliente.ui")
         form.setWindowTitle("Cadastrar Cliente")
 
@@ -351,6 +388,11 @@ class controlador_telagerente:
         form.exec()
 
     def editar_cliente(self):
+        """
+        Abre formulário para edição de cliente selecionado.
+        Exibe aviso se nenhum selecionado.
+        Preenche os campos com dados do cliente.
+        """
         sel = self.dialog.tableView_clientes.selectionModel().selectedRows()
         if not sel:
             QMessageBox.warning(self.dialog, "Atenção", "Selecione um cliente para editar.")
@@ -368,6 +410,9 @@ class controlador_telagerente:
         form.exec()
 
     def _salvar_cliente(self, form):
+        """
+        Processa cadastro de cliente, valida dados e atualiza lista após sucesso.
+        """
         try:
             nome = form.lineEdit_nome.text().strip()
             cpf = form.lineEdit_cpf.text().strip()
@@ -381,6 +426,9 @@ class controlador_telagerente:
             QMessageBox.critical(form, "Erro", str(e))
 
     def _atualizar_cliente(self, form, id_cliente):
+        """
+        Processa atualização de cliente com dados alterados e atualiza lista.
+        """
         try:
             nome = form.lineEdit_nome.text().strip()
             telefone = form.lineEdit_telefone.text().strip()
@@ -392,25 +440,20 @@ class controlador_telagerente:
         except Exception as e:
             QMessageBox.critical(form, "Erro", str(e))
 
-    def excluir_cliente(self):
-        """Exclui cliente selecionado da tabela, com confirmação e tratamento de erros."""
-        selecao = self.dialog.tableView_clientes.selectionModel().selectedRows()
-        if not selecao:
-            QMessageBox.warning(self.dialog, "Atenção", "Selecione um cliente para excluir.")
-            return
-        linha = selecao[0].row()
-        id_cliente = self.modelo_cliente._data[linha].id_cliente
-        try:
-            self.cliente_servico.deletar_cliente(id_cliente)
-            self.atualizar_lista_clientes()
-            QMessageBox.information(self.dialog, "Sucesso", "Cliente excluído com sucesso.")
-        except Exception as e:
-            QMessageBox.critical(self.dialog, "Erro", f"Erro ao excluir: {e}")
+    def excluir_cliente(self, id_cliente: int) -> bool:
+        """
+        Deleta cliente pelo ID, lança exceção se não encontrado,
+        e retorna o resultado da exclusão.
+        """
+        cliente = self.cliente_servico.buscar_cliente_por_id(id_cliente)
+        if not cliente:
+            raise Exception(f"Cliente com ID {id_cliente} não encontrado")
+        return self.cliente_servico.deletar(id_cliente)
 
     def deslogar(self):
-        """Fecha a janela da aplicação (logout)."""
+        """Fecha a janela da aplicação, efetivando o logout do usuário."""
         self.dialog.close()
 
     def executar(self):
-        """Executa a tela."""
+        """Executa o loop modal da janela principal da interface."""
         self.dialog.exec()
