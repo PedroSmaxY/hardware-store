@@ -61,7 +61,8 @@ class FuncionarioServico:
         return self.funcionario_repo.buscar_por_cargo(cargo)
 
     def atualizar_funcionario(self, id_funcionario: int, nome: str = None,
-                              cargo: CargoEnum = None, senha: str = None) -> Funcionario:
+                              nome_usuario: str = None, cargo: CargoEnum = None,
+                              senha: str = None) -> Funcionario:
         """Apenas gerente pode alterar funcionários (RN01)"""
         funcionario = self.funcionario_repo.buscar_por_id(id_funcionario)
         if not funcionario:
@@ -73,6 +74,11 @@ class FuncionarioServico:
                 raise Exception(
                     "Nome do funcionário não pode ser vazio")
             funcionario.nome = nome.strip()
+
+        if nome_usuario is not None:
+            if not nome_usuario.strip():
+                raise Exception("Nome de usuário não pode ser vazio")
+            funcionario.nome_usuario = nome_usuario.strip()
 
         if cargo is not None:
             funcionario.cargo = cargo
