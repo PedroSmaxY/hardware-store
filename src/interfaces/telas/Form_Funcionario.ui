@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>349</width>
+    <width>335</width>
     <height>351</height>
    </rect>
   </property>
@@ -40,7 +40,7 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>130</y>
+     <y>210</y>
      <width>51</width>
      <height>20</height>
     </rect>
@@ -49,21 +49,11 @@
     <string>Cargo</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_cargo">
-   <property name="geometry">
-    <rect>
-     <x>190</x>
-     <y>130</y>
-     <width>113</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_nomeUsuario">
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>170</y>
+     <y>130</y>
      <width>161</width>
      <height>20</height>
     </rect>
@@ -76,7 +66,7 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>210</y>
+     <y>170</y>
      <width>51</width>
      <height>20</height>
     </rect>
@@ -89,7 +79,7 @@
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>170</y>
+     <y>130</y>
      <width>113</width>
      <height>22</height>
     </rect>
@@ -99,7 +89,7 @@
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>210</y>
+     <y>170</y>
      <width>113</width>
      <height>22</height>
     </rect>
@@ -132,7 +122,7 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>270</y>
+     <y>260</y>
      <width>261</width>
      <height>28</height>
     </rect>
@@ -140,6 +130,31 @@
    <property name="text">
     <string>Enviar</string>
    </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_Cargo">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>210</y>
+     <width>111</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Gerente</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Vendedor</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Estoquista</string>
+    </property>
+   </item>
   </widget>
  </widget>
  <resources/>
