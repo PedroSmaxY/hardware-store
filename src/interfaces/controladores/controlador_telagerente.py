@@ -286,16 +286,25 @@ class ControladorTelaGerente:
         except Exception as e:
             QMessageBox.critical(form, "Erro", str(e))
 
-    def excluir_funcionario(self, id_funcionario: int) -> bool:
+    def excluir_funcionario(self):
         """
-        Deleta funcionário pelo ID.
-        Lança exceção se não encontrar funcionário com o ID.
-        Retorna o resultado da operação via serviço.
+        Exclui o funcionário atualmente selecionado na tabela.
+        Lida com mensagens de erro, sucesso e atualiza a interface.
         """
-        funcionario = self.funcionario_servico.buscar_funcionario_por_id(id_funcionario)
-        if not funcionario:
-            raise Exception(f"Funcionário com ID {id_funcionario} não encontrado")
-        return self.funcionario_servico.deletar(id_funcionario)
+        sel = self.dialog.tableView_funcionarios.selectionModel().selectedRows()
+        if not sel:
+            QMessageBox.warning(self.dialog, "Atenção", "Selecione um funcionário para excluir.")
+            return
+
+        funcionario = self.modelo_func._data[sel[0].row()]
+        id_funcionario = funcionario.id_funcionario
+
+        try:
+            self.funcionario_servico.deletar_funcionario(id_funcionario)
+            QMessageBox.information(self.dialog, "Sucesso", f"Funcionário ID {id_funcionario} excluído com sucesso.")
+            self.atualizar_lista_funcionarios()
+        except Exception as e:
+            QMessageBox.critical(self.dialog, "Erro", str(e))
 
     def adicionar_produto(self):
         """
@@ -367,15 +376,25 @@ class ControladorTelaGerente:
         except Exception as e:
             QMessageBox.critical(form, "Erro", str(e))
 
-    def excluir_produto(self, id_produto: int) -> bool:
+    def excluir_produto(self):
         """
-        Deleta produto pelo ID, lança exceção se não encontrado,
-        e retorna resultado da operação.
+        Exclui o produto atualmente selecionado na tabela.
+        Lida com mensagens de erro, sucesso e atualiza a interface.
         """
-        produto = self.produto_servico.buscar_produto_por_id(id_produto)
-        if not produto:
-            raise Exception(f"Produto com ID {id_produto} não encontrado")
-        return self.produto_servico.deletar(id_produto)
+        sel = self.dialog.tableView_produtos.selectionModel().selectedRows()
+        if not sel:
+            QMessageBox.warning(self.dialog, "Atenção", "Selecione um produto para excluir.")
+            return
+
+        produto = self.modelo_prod._data[sel[0].row()]
+        id_produto = produto.id_produto
+
+        try:
+            self.produto_servico.deletar_produto(id_produto)
+            QMessageBox.information(self.dialog, "Sucesso", f"Produto ID {id_produto} excluído com sucesso.")
+            self.atualizar_lista_produtos()
+        except Exception as e:
+            QMessageBox.critical(self.dialog, "Erro", str(e))
 
     def adicionar_cliente(self):
         """
@@ -440,15 +459,25 @@ class ControladorTelaGerente:
         except Exception as e:
             QMessageBox.critical(form, "Erro", str(e))
 
-    def excluir_cliente(self, id_cliente: int) -> bool:
+    def excluir_cliente(self):
         """
-        Deleta cliente pelo ID, lança exceção se não encontrado,
-        e retorna o resultado da exclusão.
+        Exclui o cliente atualmente selecionado na tabela.
+        Lida com mensagens de erro, sucesso e atualiza a interface.
         """
-        cliente = self.cliente_servico.buscar_cliente_por_id(id_cliente)
-        if not cliente:
-            raise Exception(f"Cliente com ID {id_cliente} não encontrado")
-        return self.cliente_servico.deletar(id_cliente)
+        sel = self.dialog.tableView_clientes.selectionModel().selectedRows()
+        if not sel:
+            QMessageBox.warning(self.dialog, "Atenção", "Selecione um cliente para excluir.")
+            return
+
+        cliente = self.modelo_cliente._data[sel[0].row()]
+        id_cliente = cliente.id_cliente
+
+        try:
+            self.cliente_servico.deletar_cliente(id_cliente)
+            QMessageBox.information(self.dialog, "Sucesso", f"Cliente ID {id_cliente} excluído com sucesso.")
+            self.atualizar_lista_clientes()
+        except Exception as e:
+            QMessageBox.critical(self.dialog, "Erro", str(e))
 
     def deslogar(self):
         """Fecha a janela da aplicação, efetivando o logout do usuário."""
