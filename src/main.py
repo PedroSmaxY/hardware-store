@@ -3,11 +3,6 @@ from PyQt6.QtWidgets import QApplication, QMessageBox  # type: ignore
 from src.configs.config_bd import iniciar_bd
 from src.interfaces.controladores.controlador_login import ControladorLogin
 from src.interfaces.controladores.controlador_telagerente import ControladorTelaGerente
-"""
-Adicionar controladores de vendedor e estoquista.
-"""
-
-
 
 """
 Arquivo principal do sistema de loja de hardware.
@@ -50,15 +45,13 @@ def main():
 
             if cargo.name == "GERENTE":
                 controlador = ControladorTelaGerente(funcionario)
-            # elif cargo.name == "ESTOQUISTA":
-            #    controlador = controlador_telaestoquista(funcionario)
             # elif cargo.name == "VENDEDOR":
-            #    controlador = controlador_telavendedor(funcionario)
+            #    controlador = ControladorTelaVendedor(funcionario)
             else:
                 QMessageBox.critical(None, "Erro", f"Cargo não reconhecido: {cargo}")
                 return
 
-            controlador.executar()  # método que você definirá em cada controlador de cargo
+            controlador.executar() 
 
         else:
             print("🚫 Login cancelado pelo usuário.")

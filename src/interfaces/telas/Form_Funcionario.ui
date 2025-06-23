@@ -150,11 +150,6 @@
      <string>Vendedor</string>
     </property>
    </item>
-   <item>
-    <property name="text">
-     <string>Estoquista</string>
-    </property>
-   </item>
   </widget>
  </widget>
  <resources/>
