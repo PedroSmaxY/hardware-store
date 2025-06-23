@@ -41,7 +41,6 @@ class SimpleTableModel(QAbstractTableModel):
         if role == Qt.ItemDataRole.DisplayRole and orientation == Qt.Orientation.Horizontal:
             return self._columns[section]
 
-
 class ControladorTelaGerente:
     """
     Controlador principal da interface administrativa para gerenciar funcionários,
@@ -296,6 +295,15 @@ class ControladorTelaGerente:
             QMessageBox.warning(self.dialog, "Atenção", "Selecione um funcionário para excluir.")
             return
 
+        resposta = QMessageBox.question(
+            self.dialog,
+            "Confirmação",
+            "Você deseja mesmo excluir este funcionário?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+        if resposta != QMessageBox.StandardButton.Yes:
+            return
+
         funcionario = self.modelo_func._data[sel[0].row()]
         id_funcionario = funcionario.id_funcionario
 
@@ -386,6 +394,15 @@ class ControladorTelaGerente:
             QMessageBox.warning(self.dialog, "Atenção", "Selecione um produto para excluir.")
             return
 
+        resposta = QMessageBox.question(
+            self.dialog,
+            "Confirmação",
+            "Você deseja mesmo excluir este produto?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+        if resposta != QMessageBox.StandardButton.Yes:
+            return
+
         produto = self.modelo_prod._data[sel[0].row()]
         id_produto = produto.id_produto
 
@@ -467,6 +484,15 @@ class ControladorTelaGerente:
         sel = self.dialog.tableView_clientes.selectionModel().selectedRows()
         if not sel:
             QMessageBox.warning(self.dialog, "Atenção", "Selecione um cliente para excluir.")
+            return
+
+        resposta = QMessageBox.question(
+            self.dialog,
+            "Confirmação",
+            "Você deseja mesmo excluir este cliente?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+        if resposta != QMessageBox.StandardButton.Yes:
             return
 
         cliente = self.modelo_cliente._data[sel[0].row()]
