@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import QApplication, QMessageBox  # type: ignore
 from src.configs.config_bd import iniciar_bd
 from src.interfaces.controladores.controlador_login import ControladorLogin
 from src.interfaces.controladores.controlador_telagerente import ControladorTelaGerente
+from src.interfaces.controladores.controlador_telavendedor import ControladorTelaVendedor
 
 """
 Arquivo principal do sistema de loja de hardware.
@@ -38,20 +39,19 @@ def main():
 
         if controlador_login.executar():
             funcionario = controlador_login.get_funcionario_logado()
-            print(
-                f"✅ Login realizado! Usuário: {funcionario.nome if funcionario else 'Desconhecido'}")
+            print(f"✅ Login realizado! Usuário: {funcionario.nome if funcionario else 'Desconhecido'}")
 
             cargo = funcionario.cargo
 
             if cargo.name == "GERENTE":
                 controlador = ControladorTelaGerente(funcionario)
-            # elif cargo.name == "VENDEDOR":
-            #    controlador = ControladorTelaVendedor(funcionario)
+            elif cargo.name == "VENDEDOR":
+                controlador = ControladorTelaVendedor(funcionario.id_funcionario)
             else:
                 QMessageBox.critical(None, "Erro", f"Cargo não reconhecido: {cargo}")
                 return
 
-            controlador.executar() 
+            controlador.executar()
 
         else:
             print("🚫 Login cancelado pelo usuário.")
