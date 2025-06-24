@@ -1,179 +1,197 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1130</width>
-    <height>722</height>
+    <width>1147</width>
+    <height>787</height>
    </rect>
   </property>
-  <property name="font">
-   <font>
-    <family>FreeSans</family>
-    <pointsize>13</pointsize>
-   </font>
-  </property>
   <property name="windowTitle">
-   <string>MenuVendas</string>
+   <string>Dialog</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="label_valorTotal">
-    <property name="geometry">
-     <rect>
-      <x>880</x>
-      <y>620</y>
-      <width>231</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Valor Total: R$</string>
-    </property>
-   </widget>
-   <widget class="QTableView" name="table_produtos">
-    <property name="geometry">
-     <rect>
-      <x>80</x>
-      <y>140</y>
-      <width>461</width>
-      <height>381</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_produtos">
-    <property name="geometry">
-     <rect>
-      <x>80</x>
-      <y>110</y>
-      <width>461</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>FreeSans</family>
-      <pointsize>16</pointsize>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Produtos</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignmentFlag::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="button_adicionarItemCarrinho">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>540</y>
-      <width>361</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Adicionar item ao carrinho</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_titulo">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>30</y>
-      <width>1131</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Sans</family>
-      <pointsize>20</pointsize>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Tela de Compra</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignmentFlag::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="button_concluirCompra">
-    <property name="geometry">
-     <rect>
-      <x>880</x>
-      <y>660</y>
-      <width>221</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Concluir Compra</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="button_excluirItemCarrinho">
-    <property name="geometry">
-     <rect>
-      <x>650</x>
-      <y>540</y>
-      <width>361</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Excluir do Carrinho</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_carrinho">
-    <property name="geometry">
-     <rect>
-      <x>600</x>
-      <y>110</y>
-      <width>461</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>FreeSans</family>
-      <pointsize>16</pointsize>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Carrinho</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignmentFlag::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QTableView" name="table_carrinho">
-    <property name="geometry">
-     <rect>
-      <x>600</x>
-      <y>140</y>
-      <width>461</width>
-      <height>381</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="checkBox_confirmaCliente">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>680</y>
-      <width>211</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Possui o Cartão da Loja?</string>
-    </property>
-   </widget>
+  <widget class="QPushButton" name="button_excluirItemCarrinho">
+   <property name="geometry">
+    <rect>
+     <x>650</x>
+     <y>570</y>
+     <width>361</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Excluir do Carrinho</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_carrinho">
+   <property name="geometry">
+    <rect>
+     <x>600</x>
+     <y>140</y>
+     <width>461</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>FreeSans</family>
+     <pointsize>16</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Carrinho</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_titulo">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>40</y>
+     <width>1141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Sans</family>
+     <pointsize>20</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Tela de Compra</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="button_adicionarItemCarrinho">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>570</y>
+     <width>361</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Adicionar item ao carrinho</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_produtos">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>140</y>
+     <width>461</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>FreeSans</family>
+     <pointsize>16</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Produtos</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QTableView" name="table_produtos">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>170</y>
+     <width>461</width>
+     <height>381</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_valorTotal">
+   <property name="geometry">
+    <rect>
+     <x>890</x>
+     <y>660</y>
+     <width>231</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Valor Total: R$</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="button_concluirCompra">
+   <property name="geometry">
+    <rect>
+     <x>890</x>
+     <y>700</y>
+     <width>221</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Concluir Compra</string>
+   </property>
+  </widget>
+  <widget class="QTableView" name="table_carrinho">
+   <property name="geometry">
+    <rect>
+     <x>600</x>
+     <y>170</y>
+     <width>461</width>
+     <height>381</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>30</y>
+     <width>97</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Deslogar</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_clientes">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>720</y>
+     <width>161</width>
+     <height>28</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_clientes">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>690</y>
+     <width>161</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cliente</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
   </widget>
  </widget>
  <resources/>
