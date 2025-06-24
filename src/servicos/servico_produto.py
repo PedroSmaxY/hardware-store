@@ -89,7 +89,7 @@ class ProdutoServico:
             # Verifica se já existe outro produto com mesmo nome
             produtos_existentes = self.produto_repo.buscar_por_nome(
                 nome.strip())
-            if produtos_existentes and produtos_existentes[0].id != id_produto:
+            if produtos_existentes and produtos_existentes[0].id_produto != id_produto:
                 raise Exception(
                     f"Já existe outro produto com o nome '{nome}'")
 
