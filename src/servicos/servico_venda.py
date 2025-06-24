@@ -23,8 +23,7 @@ class VendaServico:
         self.itens_venda_repo = ItensVendaRepositorio()
         self.produto_servico = ProdutoServico()
 
-    def criar_venda(self, id_funcionario: int, id_cliente: int = None) -> Venda:
-        """RF05 - Registro de Venda"""
+    def criar_venda(self, id_funcionario: int, id_cliente: int = None, persistir: bool = True) -> Venda:
         if id_funcionario <= 0:
             raise Exception("ID do funcionário deve ser maior que zero")
 
@@ -34,7 +33,7 @@ class VendaServico:
             data_venda=datetime.now()
         )
 
-        return self.venda_repo.salvar(venda)
+        return self.venda_repo.salvar(venda) if persistir else venda
 
     def buscar_venda_por_id(self, id_venda: int) -> Optional[Venda]:
         if id_venda <= 0:
