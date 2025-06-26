@@ -1,0 +1,13 @@
+cffi==1.17.1
+cryptography==45.0.4
+greenlet==3.2.3
+pycparser==2.22
+pymysql==1.1.1
+pyqt6==6.9.1
+pyqt6-qt6==6.9.1
+pyqt6-sip==13.10.2
+python-dotenv==1.1.0
+sqlalchemy==2.0.41
+sqlalchemy-utils==0.41.2
+types-sqlalchemy-utils==1.1.0
+typing-extensions==4.14.0
